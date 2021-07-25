@@ -1,19 +1,10 @@
 import Divider from '../Divider';
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {ExpandLess, ExpandMore} from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
-  typography: {
-    padding: theme.spacing(2),
-  },
-}));
-
 export default function SimplePopover() {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {

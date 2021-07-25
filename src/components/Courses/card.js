@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import image from '../Courses/contemplative-reptile.jpeg';
-import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import {red} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -42,12 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CourseCard() {
   const classes = useStyles();
-
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <Card variant="outlined" className={classes.root}>
