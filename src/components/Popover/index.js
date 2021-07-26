@@ -22,7 +22,7 @@ export default function SimplePopover() {
     <div>
       <Button
         endIcon={open ? <ExpandLess /> : <ExpandMore />}
-        style={{paddingLeft: 20, color: 'white', paddingBottom: 0, fontSize: 15}}
+        style={{paddingLeft: 20, paddingBottom: 0, fontSize: 15}}
         onClick={handleClick}>
         {'Danh mục'}
 

@@ -1,8 +1,8 @@
 import {Grid} from '@material-ui/core';
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
-import CourseCard from '../components/Courses/card';
-import Menu from '../components/Menu';
+import CourseCard from '../../components/Courses/card';
+import Menu from '../../components/Menu';
 
 const Home = (props) => {
 
@@ -30,11 +30,11 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          <CourseCard id={1}/>
+          <CourseCard id={2}/>
+          <CourseCard id={3}/>
+          <CourseCard id={4}/>
+          <CourseCard id={5}/>
         </Grid>
         <Grid
           style={{paddingInline: 40}}

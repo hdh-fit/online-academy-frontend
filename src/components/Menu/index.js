@@ -1,5 +1,5 @@
 import React from 'react';
-import {alpha, makeStyles} from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,7 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Popover from '../Popover';
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -28,13 +28,14 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    fontWeight:'bold',
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.black, 0.15),
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.black, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -109,10 +110,10 @@ export default function PrimarySearchAppBar() {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{vertical: 'top', horizontal: 'right'}}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
@@ -125,10 +126,10 @@ export default function PrimarySearchAppBar() {
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{vertical: 'top', horizontal: 'right'}}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -164,7 +165,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="relative">
+      <AppBar color={'default'} position="relative">
         <Toolbar>
           {/*<IconButton
             edge="start"
@@ -188,7 +189,7 @@ export default function PrimarySearchAppBar() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{'aria-label': 'search'}}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </div>
           <div className={classes.grow} />
@@ -213,8 +214,8 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>*/}
-            <Button  variant="contained" style={{marginRight: 12, width: 125}} >{'Đăng nhập'}</Button>
-            <Button color="inherit" variant="outlined" style={{width: 125}} >{'Đăng ký'}</Button>
+            <Button variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
+            <Button style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

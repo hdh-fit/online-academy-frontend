@@ -4,11 +4,16 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home';
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import CourseDetail from './views/CourseDetail';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Home />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="/course/detail/:id" component={CourseDetail} />
+      <Route path="/" component={Home} />
+    </Switch>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
