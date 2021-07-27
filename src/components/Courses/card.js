@@ -45,7 +45,7 @@ export default function CourseCard({id}) {
   const history = useHistory();
 
   return (
-    <Card onClick={() => history.push(`/course/detail/${id}`)} variant="outlined" className={classes.root}>
+    <Card onClick={() => history.push(`/course/${id}`)} variant="outlined" className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"

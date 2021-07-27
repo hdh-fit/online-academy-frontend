@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -16,7 +15,6 @@ import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		width: '65%',
 		backgroundColor: theme.palette.background.paper,
 		border: '1px solid rgb(210,215,219)',
 		borderRadius: 4
@@ -44,14 +42,14 @@ export default function CourseContent() {
 				<ListItemIcon>
 					<SendIcon />
 				</ListItemIcon>
-				<ListItemText primary="Sent mail" />
+				<ListItemText primary="Course Introdution" />
 			</ListItem>
 			<Divider style={{ backgroundColor: 'gray' }} />
 			<ListItem button>
 				<ListItemIcon>
 					<DraftsIcon />
 				</ListItemIcon>
-				<ListItemText primary="Drafts" />
+				<ListItemText primary="Install and Setup" />
 			</ListItem>
 			<Divider style={{ backgroundColor: 'gray' }} />
 
@@ -59,7 +57,7 @@ export default function CourseContent() {
 				<ListItemIcon>
 					<InboxIcon />
 				</ListItemIcon>
-				<ListItemText primary="Inbox" />
+				<ListItemText primary="Input and Output in Python" />
 				{open ? <ExpandLess /> : <ExpandMore />}
 			</ListItem>
 
@@ -69,7 +67,7 @@ export default function CourseContent() {
 						<ListItemIcon>
 							<StarBorder />
 						</ListItemIcon>
-						<ListItemText primary="Starred" />
+						<ListItemText primary="Module and Functions in Python" />
 					</ListItem>
 				</List>
 			</Collapse>

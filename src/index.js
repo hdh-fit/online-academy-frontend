@@ -4,13 +4,13 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home';
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CourseDetail from './views/CourseDetail';
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/course/detail/:id" component={CourseDetail} />
+      <Route path="/course/:id" component={CourseDetail} />
       <Route path="/" component={Home} />
     </Switch>
   </BrowserRouter>,
