@@ -16,6 +16,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Popover from '../Popover';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import FormDialog from '../FormDialog';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -25,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    fontSize:25,
-    fontWeight:'bold'
+    fontSize: 25,
+    fontWeight: 'bold'
   },
   search: {
     position: 'relative',
@@ -83,6 +84,15 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [isOpenLogin, setIsOpenLogin] = React.useState(false);
+
+  const onClickLogin = () => {
+    setIsOpenLogin(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenLogin(false);
+  };
 
   const history = useHistory();
 
@@ -166,6 +176,10 @@ export default function PrimarySearchAppBar() {
   return (
     <div className={classes.grow}>
       <AppBar color={'default'} position="relative">
+        <FormDialog
+          onClose={closeModal}
+          isOpen={isOpenLogin} />
+
         <Toolbar>
           {/*<IconButton
             edge="start"
@@ -214,7 +228,7 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>*/}
-            <Button variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
+            <Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
             <Button style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
           </div>
           <div className={classes.sectionMobile}>
