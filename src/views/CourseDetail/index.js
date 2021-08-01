@@ -11,6 +11,61 @@ import image from '../../components/Courses/contemplative-reptile.jpeg';
 const CourseDetail = () => {
 	let { id } = useParams();
 
+	const FillStar = (size = 17) => <Star style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
+	const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
+
+	const renderRatingChart = (percent, type) => {
+		return (
+			<div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
+				<div style={{ width: 380, height: 9, backgroundColor: 'rgb(165,169,172)', display: 'flex', marginRight: 5 }}>
+					<div style={{ backgroundColor: 'gray', flex: percent }} />
+				</div>
+				{type === 1
+					? <React.Fragment>
+						{FillStar()}
+						{OutlinedStart()}
+						{OutlinedStart()}
+						{OutlinedStart()}
+						{OutlinedStart()}
+					</React.Fragment>
+					: type === 2
+						? <React.Fragment>
+							{FillStar()}
+							{FillStar()}
+							{OutlinedStart()}
+							{OutlinedStart()}
+							{OutlinedStart()}
+						</React.Fragment>
+						: type === 3
+							? <React.Fragment>
+								{FillStar()}
+								{FillStar()}
+								{FillStar()}
+								{OutlinedStart()}
+								{OutlinedStart()}
+							</React.Fragment>
+							: type === 4
+								? <React.Fragment>
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+									{OutlinedStart()}
+								</React.Fragment>
+								: <React.Fragment>
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+								</React.Fragment>}
+				<span style={{ color: 'rgb(73,46,187)', paddingLeft: 5,fontSize:14 }}>
+					{`${percent * 100}%`}
+				</span>
+			</div>
+		);
+	};
+
 	return (
 		<div style={{
 			flex: 1,
@@ -29,11 +84,11 @@ const CourseDetail = () => {
 						{`This Python For Beginners Course Teaches You The Python Language Fast. Includes Python Online Training With Python`}
 					</span>
 					<Grid alignItems='center' direction='row'>
-						<Star style={{ fontSize: 17 }} />
-						<Star style={{ fontSize: 17 }} />
-						<Star style={{ fontSize: 17 }} />
-						<StarOutlineOutlined style={{ fontSize: 17 }} />
-						<StarOutlineOutlined style={{ fontSize: 17 }} />
+						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
+						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
+						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
+						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
+						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
 						<span style={{ fontSize: 14 }}>
 							{' (78,548 ratings) 326,026 students'}
 						</span>
@@ -103,6 +158,41 @@ const CourseDetail = () => {
 						<h3 >
 							{'Reviews'}
 						</h3>
+						<div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
+							<div style={{
+								color: "rgb(219,154,60)",
+								justifyContent: 'center',
+								display: 'flex',
+								flexDirection: 'column',
+								width: 130,
+								paddingBottom: 17
+							}}>
+								<span style={{
+									fontWeight: 'bold',
+									color: "rgb(171,108,41)",
+									fontSize: 65,
+								}}>
+									{'4.0'}
+								</span>
+								<div style={{ marginTop: -20 }}>
+									{FillStar(19)}
+									{FillStar(19)}
+									{FillStar(19)}
+									{FillStar(19)}
+									{OutlinedStart(19)}
+								</div>
+								<span style={{ fontWeight: 'bold', fontSize: 15 }}>
+									{'Course Rating'}
+								</span>
+							</div>
+							<div style={{ flex: 1 }}>
+								{renderRatingChart(0.54, 5)}
+								{renderRatingChart(0.5, 4)}
+								{renderRatingChart(0.2, 3)}
+								{renderRatingChart(0.1, 2)}
+								{renderRatingChart(0.05, 1)}
+							</div>
+						</div>
 						<div style={{ display: 'flex', paddingTop: 20 }}>
 
 							<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
@@ -110,12 +200,20 @@ const CourseDetail = () => {
 								<h5 >
 									{'Ankit Krishan Puri'}
 								</h5>
-								<p>
+								<div>
+									{FillStar()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									<span style={{ fontSize: 12, color: 'GrayText' }}>
+										{'2 weeks ago'}
+									</span>
+								</div>
+								<p style={{ marginTop: 12 }}>
 									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
 								</p>
-								<span style={{ fontSize: 13 }}>
-									Was this review helpful?
-								</span>
+
 							</div>
 						</div>
 						<div style={{ display: 'flex', paddingTop: 20 }}>
@@ -124,12 +222,20 @@ const CourseDetail = () => {
 								<h5 >
 									{'Ankit Krishan Puri'}
 								</h5>
+								<div>
+									{FillStar()}
+									{FillStar()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									<span style={{ fontSize: 12, color: 'GrayText' }}>
+										{'2 weeks ago'}
+									</span>
+								</div>
 								<p>
 									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
 								</p>
-								<span style={{ fontSize: 13 }}>
-									Was this review helpful?
-								</span>
+
 							</div>
 						</div>
 						<div style={{ display: 'flex', paddingTop: 20 }}>
@@ -139,12 +245,20 @@ const CourseDetail = () => {
 								<h5 >
 									{'Ankit Krishan Puri'}
 								</h5>
+								<div>
+									{FillStar()}
+									{FillStar()}
+									{FillStar()}
+									{OutlinedStart()}
+									{OutlinedStart()}
+									<span style={{ fontSize: 12, color: 'GrayText' }}>
+										{'2 weeks ago'}
+									</span>
+								</div>
 								<p>
 									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
 								</p>
-								<span style={{ fontSize: 13 }}>
-									Was this review helpful?
-								</span>
+
 							</div>
 						</div>
 					</Paper>

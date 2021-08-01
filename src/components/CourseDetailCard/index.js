@@ -4,16 +4,20 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+//import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import image from '../Courses/contemplative-reptile.jpeg';
+//import Typography from '@material-ui/core/Typography';
+//import image from '../Courses/contemplative-reptile.jpeg';
+
+import ReactPlayer from 'react-player';
+
+
 
 const useStyles = makeStyles({
 	root: {
 		marginLeft: 10,
-		maxHeight: 552,
-		width:360
+		maxHeight: 380,
+		width: 600
 	},
 	media: {
 		height: 300,
@@ -26,29 +30,23 @@ export default function CourseDetailCard() {
 	return (
 		<Card elevation={5} className={classes.root}>
 			<CardActionArea>
-				<CardMedia
+				{/*<CardMedia
 					className={classes.media}
 					image={image}
 					title="Contemplative Reptile"
-				/>
+				/>*/}
 				<CardContent>
-					<Typography style={{ fontWeight: 'bold' }} gutterBottom variant="h4" component="h2">
-						$13.99
-					</Typography>
-					<span style={{ fontWeight: 'bold' }}>
-						This course includes:
-					</span>
-					<ul>
-						<li>
-							62.5 hours on-demand video
-						</li>
-						<li>
-							14 articles
-						</li>
-						<li>
-							16 downloadable resources
-						</li>
-					</ul>
+					{/*<video width="500" height="240" controls>
+						<source src="https://dl.dropboxusercontent.com/sh/96mp97f9hxgg8gr/AAAyeXaa-koDco2A13FF6lsBa/Pexels%20Videos%201824697.mp4?dl=0" type="video/mp4" />
+
+					</video>*/}
+
+					<ReactPlayer
+						height='100'
+						width='100%'
+						controls='true'
+						url='https://dl.dropboxusercontent.com/sh/96mp97f9hxgg8gr/AAAyeXaa-koDco2A13FF6lsBa/Pexels%20Videos%201824697.mp4?dl=0'
+					/>
 				</CardContent>
 			</CardActionArea>
 			<CardActions style={{ justifyContent: 'center' }}>

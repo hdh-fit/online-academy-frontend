@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import { Star } from '@material-ui/icons';
+import { Star, StarOutlineOutlined } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CourseCard({id}) {
+export default function CourseCard({ id }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -68,11 +68,11 @@ export default function CourseCard({id}) {
             container
             alignItems={'center'}
             direction="row">
-            <Star style={{ fontSize: 15 }} />
-            <Star style={{ fontSize: 15 }} />
-            <Star style={{ fontSize: 15 }} />
-            <Star style={{ fontSize: 15 }} color={'disabled'} />
-            <Star style={{ fontSize: 15 }} color={'disabled'} />
+            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            <StarOutlineOutlined style={{ fontSize: 15 , fill: "rgb(219,154,60)" }} />
+            <StarOutlineOutlined  style={{ fontSize: 15 , fill: "rgb(219,154,60)" }} />
             <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
               {'(15 lượt đánh giá)'}
             </span>
