@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import CourseDetail from './views/CourseDetail';
+import MessengerCustomerChat from "react-messenger-customer-chat";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ ReactDOM.render(
       <Route path="/course/:id" component={CourseDetail} />
       <Route path="/" component={Home} />
     </Switch>
+    <MessengerCustomerChat pageId="104971585166877" appId="324107322422057" />
   </BrowserRouter>,
   document.getElementById('root')
 );
