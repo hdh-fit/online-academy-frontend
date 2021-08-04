@@ -86,9 +86,9 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [isOpenLogin, setIsOpenLogin] = React.useState(false);
 
-  const onClickLogin = () => {
-    setIsOpenLogin(true);
-  };
+  //const onClickLogin = () => {
+  //  setIsOpenLogin(true);
+  //};
 
   const closeModal = () => {
     setIsOpenLogin(false);
@@ -127,7 +127,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={() => history.push("/myprofile")}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -208,7 +208,7 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/*<IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
@@ -227,9 +227,9 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>*/}
-            <Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
-            <Button style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
+            </IconButton>
+            {/*<Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
+            <Button style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>*/}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
