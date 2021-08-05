@@ -17,6 +17,10 @@ import Popover from '../Popover';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import FormDialog from '../FormDialog';
+import SignUpForm from '../SignUpForm';
+import { signUp } from '../../api';
+
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -85,14 +89,23 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [isOpenLogin, setIsOpenLogin] = React.useState(false);
+  const [isOpenSignUp, setIsSignUp] = React.useState(false);
 
-  //const onClickLogin = () => {
-  //  setIsOpenLogin(true);
-  //};
+  const onClickLogin = () => {
+    setIsOpenLogin(true);
+    setIsSignUp(false);
+  };
+
+  const onClickSignUp = () => {
+    setIsSignUp(true);
+    setIsOpenLogin(false);
+  };
 
   const closeModal = () => {
     setIsOpenLogin(false);
+    setIsSignUp(false);
   };
+
 
   const history = useHistory();
 
@@ -114,6 +127,18 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const onSignUp = (data) => {
+    signUp(data)
+      .then(data => {
+        if (data?._id) {
+          history.push("/myprofile",)
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const menuId = 'primary-search-account-menu';
@@ -179,7 +204,11 @@ export default function PrimarySearchAppBar() {
         <FormDialog
           onClose={closeModal}
           isOpen={isOpenLogin} />
-
+        <SignUpForm
+          onSignUp={onSignUp}
+          isOpen={isOpenSignUp}
+          onClose={closeModal}
+        />
         <Toolbar>
           {/*<IconButton
             edge="start"
@@ -208,7 +237,7 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            {/*<IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
@@ -227,9 +256,9 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
-            {/*<Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
-            <Button style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>*/}
+            </IconButton>*/}
+            <Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
+            <Button onClick={onClickSignUp} style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
