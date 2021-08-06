@@ -1,10 +1,13 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
+import { useSelector } from 'react-redux';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 
 const Home = (props) => {
+  const appState = useSelector(state => state.app);
+  console.log('user', appState);
   return (
     <div style={{
       flex: 1,

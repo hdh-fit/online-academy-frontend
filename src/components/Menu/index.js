@@ -18,8 +18,9 @@ import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import FormDialog from '../FormDialog';
 import SignUpForm from '../SignUpForm';
-import { signUp } from '../../api';
-
+import { signIn, signUp } from '../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import { onLoginSuccess, onLogOutSuccess } from '../../core/store/reducer/app/actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,6 +91,8 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [isOpenLogin, setIsOpenLogin] = React.useState(false);
   const [isOpenSignUp, setIsSignUp] = React.useState(false);
+  const dispatch = useDispatch();
+  const appState = useSelector(state => state.app);
 
   const onClickLogin = () => {
     setIsOpenLogin(true);
@@ -125,6 +128,11 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
+  const onLogOut = () => {
+    dispatch(onLogOutSuccess());
+    handleMenuClose();
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -133,11 +141,26 @@ export default function PrimarySearchAppBar() {
     signUp(data)
       .then(data => {
         if (data?._id) {
-          history.push("/myprofile",)
+          history.push("/myprofile",);
         }
       })
       .catch(error => {
         console.log(error);
+      });
+  };
+
+  const onSignIn = (signInReq) => {
+    signIn(signInReq)
+      .then(data => {
+        if (data.accessToken) {
+          dispatch(onLoginSuccess(data.accessToken));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsOpenLogin(false);
       });
   };
 
@@ -153,7 +176,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => history.push("/myprofile")}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={onLogOut}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -202,6 +225,7 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar color={'default'} position="relative">
         <FormDialog
+          onSignIn={onSignIn}
           onClose={closeModal}
           isOpen={isOpenLogin} />
         <SignUpForm
@@ -237,28 +261,33 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/*<IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>*/}
-            <Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
-            <Button onClick={onClickSignUp} style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
+            {appState.isLogin
+              ? <React.Fragment>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton aria-label="show 17 new notifications" color="inherit">
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </React.Fragment>
+              : <React.Fragment>
+                <Button onClick={onClickLogin} variant="contained" style={{ marginRight: 12, width: 125, fontWeight: 'bold' }} >{'Đăng nhập'}</Button>
+                <Button onClick={onClickSignUp} style={{ width: 125, backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold' }} >{'Đăng ký'}</Button>
+              </React.Fragment>}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

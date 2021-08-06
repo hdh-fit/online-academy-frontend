@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Menu from '../../components/Menu';
 import { Avatar, Container, Paper, TextField } from '@material-ui/core';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
 import TypographyMenu from '../../components/MenuProfile';
+import { getUserInfo } from '../../api';
 
 const Profile = () => {
+	useEffect(() => {
+		getUserInfo()
+			.then(data => console.log(data))
+			.catch(err => console.log(err));
+	}, []);
 	return (
 		<div style={{
 			flex: 1,
@@ -18,7 +24,7 @@ const Profile = () => {
 					</Paper>
 				</div>
 				<div style={{ flex: 6, marginLeft: 12 }}>
-					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12, paddingInline: 50, paddingBottom: 20}} variant="outlined">
+					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12, paddingInline: 50, paddingBottom: 20 }} variant="outlined">
 						<h3>
 							Public profile
 						</h3>

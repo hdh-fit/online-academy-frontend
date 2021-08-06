@@ -6,22 +6,38 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function FormDialog({ isOpen, onClose }) {
+export default function FormDialog({ isOpen, onClose,onSignIn }) {
+	const initForm = {
+		"username": undefined,
+		"password": undefined,
+		"type": 1,
+	};
+
+	const [form, setForm] = React.useState(initForm);
+
+	const onSubmitForm = () => {
+		onSignIn(form);
+	};
+
 	return (
 		<div>
 			<Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Đăng nhập</DialogTitle>
+				<DialogTitle id="form-dialog-title">Sign In</DialogTitle>
 				<DialogContent>
 					<TextField
+					variant={'filled'}
+						onChange={({ target }) => setForm({ ...form, username: target.value })}
 						autoFocus
-						id="name"
-						label="Email"
-						type="email"
+						id="username"
+						label="Username"
 						fullWidth
 					/>
 					<TextField
-						style={{ marginTop: 20}}
-						id="passworl"
+					variant={'filled'}
+
+						onChange={({ target }) => setForm({ ...form, password: target.value })}
+						style={{ marginTop: 20 }}
+						id="password"
 						label="Password"
 						type="password"
 						fullWidth
@@ -31,8 +47,8 @@ export default function FormDialog({ isOpen, onClose }) {
 					<Button onClick={onClose} color="primary">
 						Cancel
 					</Button>
-					<Button onClick={onClose} color="primary">
-						Subscribe
+					<Button onClick={onSubmitForm} color="primary">
+						Sign In
 					</Button>
 				</DialogActions>
 			</Dialog>
