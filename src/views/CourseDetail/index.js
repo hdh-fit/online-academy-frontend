@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
 import { useParams } from "react-router-dom";
 import './course.css';
@@ -7,9 +7,42 @@ import { Avatar, Container, Grid, Paper } from '@material-ui/core';
 import CourseContent from '../../components/CoursesContent';
 import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
+import { getCourseDetail } from '../../api';
 
 const CourseDetail = () => {
 	let { id } = useParams();
+	const initCourse = {
+		"feedBack": [],
+		"name": "",
+		"short_described": "",
+		"full_described": "",
+		"rating": 0,
+		"image_link": "",
+		"dateCourse": "",
+		"isFinish": false,
+		"view": 0,
+		"price": 0,
+		"category": "",
+		"review": [
+		],
+		"idTeacher": ""
+	};
+
+	const [course, setCourse] = useState(initCourse);
+
+	useEffect(() => {
+		getCourse();
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+	const getCourse = () => {
+		getCourseDetail(id)
+			.then(response => {
+				if (response.success) {
+					setCourse(response.data);
+				}
+			});
+	};
 
 	const FillStar = (size = 17) => <Star style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
 	const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
@@ -59,7 +92,7 @@ const CourseDetail = () => {
 									{FillStar()}
 									{FillStar()}
 								</React.Fragment>}
-				<span style={{ color: 'rgb(73,46,187)', paddingLeft: 5,fontSize:14 }}>
+				<span style={{ color: 'rgb(73,46,187)', paddingLeft: 5, fontSize: 14 }}>
 					{`${percent * 100}%`}
 				</span>
 			</div>
@@ -78,10 +111,10 @@ const CourseDetail = () => {
 			}}>
 				<Container style={{ paddingTop: 20, paddingBottom: 20 }}>
 					<h3>
-						{`Learn Python Programming Masterclass ${id}`}
+						{course.name}
 					</h3>
 					<span>
-						{`This Python For Beginners Course Teaches You The Python Language Fast. Includes Python Online Training With Python`}
+						{course.short_described}
 					</span>
 					<Grid alignItems='center' direction='row'>
 						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
@@ -90,11 +123,11 @@ const CourseDetail = () => {
 						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
 						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
 						<span style={{ fontSize: 14 }}>
-							{' (78,548 ratings) 326,026 students'}
+							{` (${course.review.length} ratings) 326,026 students`}
 						</span>
 					</Grid>
 					<span style={{ fontSize: 14 }}>
-						{'Last updated 7/2021'}
+						{`Last updated ${new Date(course.dateCourse)}`}
 					</span>
 				</Container>
 			</div>
@@ -104,17 +137,9 @@ const CourseDetail = () => {
 						<h3 style={{ padding: 15, paddingBottom: 5 }}>
 							{`What you'll learn`}
 						</h3>
-						<ul>
-							<li>
-								Have a fundamental understanding of the Python programming language.
-							</li>
-							<li>
-								Acquire the pre-requisite Python skills to move into specific branches - Machine Learning, Data Science, etc..
-							</li>
-							<li>
-								Understand how to create your own Python programs.
-							</li>
-						</ul>
+						<p style={{ paddingLeft: 17 }}>
+							{course.full_described}
+						</p>
 					</Paper>
 					<h3 style={{ paddingTop: 20 }}>
 						{'Course content'}
@@ -216,51 +241,31 @@ const CourseDetail = () => {
 
 							</div>
 						</div>
-						<div style={{ display: 'flex', paddingTop: 20 }}>
-							<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
-							<div>
-								<h5 >
-									{'Ankit Krishan Puri'}
-								</h5>
-								<div>
-									{FillStar()}
-									{FillStar()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									<span style={{ fontSize: 12, color: 'GrayText' }}>
-										{'2 weeks ago'}
-									</span>
+						{course.review.map(item => {
+							return (
+								<div style={{ display: 'flex', paddingTop: 20 }}>
+									<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
+									<div>
+										<h5 >
+											{item.id_user}
+										</h5>
+										<div>
+											{FillStar()}
+											{FillStar()}
+											{OutlinedStart()}
+											{OutlinedStart()}
+											{OutlinedStart()}
+											<span style={{ fontSize: 12, color: 'GrayText' }}>
+												{'2 weeks ago'}
+											</span>
+										</div>
+										<p>
+											{item.comment}
+										</p>
+									</div>
 								</div>
-								<p>
-									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
-								</p>
-
-							</div>
-						</div>
-						<div style={{ display: 'flex', paddingTop: 20 }}>
-
-							<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
-							<div>
-								<h5 >
-									{'Ankit Krishan Puri'}
-								</h5>
-								<div>
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									<span style={{ fontSize: 12, color: 'GrayText' }}>
-										{'2 weeks ago'}
-									</span>
-								</div>
-								<p>
-									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
-								</p>
-
-							</div>
-						</div>
+							);
+						})}
 					</Paper>
 				</div>
 				<CourseDetailCard />

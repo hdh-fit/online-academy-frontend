@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CourseCard({ id }) {
+export default function CourseCard({ course }) {
   const classes = useStyles();
   const history = useHistory();
 
   return (
-    <Card onClick={() => history.push(`/course/${id}`)} variant="outlined" className={classes.root}>
+    <Card onClick={() => history.push(`/course/${course._id}`)} variant="outlined" className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -56,13 +56,13 @@ export default function CourseCard({ id }) {
         />
         <CardContent>
           <Typography style={{ fontWeight: 'bold' }} variant="body1" component="p">
-            {'Redux-saga cơ bản'}
+            {course.name}
           </Typography>
           <Typography variant="body1" color="textSecondary" component="p">
             {'Jeff'}
           </Typography>
           <Typography variant="body1" component="p">
-            {'Lập trình web'}
+            {course.category}
           </Typography>
           <Grid
             container
@@ -71,14 +71,14 @@ export default function CourseCard({ id }) {
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <StarOutlineOutlined style={{ fontSize: 15 , fill: "rgb(219,154,60)" }} />
-            <StarOutlineOutlined  style={{ fontSize: 15 , fill: "rgb(219,154,60)" }} />
+            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
-              {'(15 lượt đánh giá)'}
+              {`(${course.review.length} lượt đánh giá)`}
             </span>
           </Grid>
           <div style={{ fontWeight: 'bold' }}>
-            {'99,000 VND'}
+            {`${course.price} VND`}
           </div>
         </CardContent>
       </CardActionArea>

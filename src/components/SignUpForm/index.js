@@ -5,7 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {Select, MenuItem } from '@material-ui/core';
+import { Select, MenuItem } from '@material-ui/core';
 
 export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 	const initForm = {
@@ -15,14 +15,14 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 		"phone": undefined,
 		"type": 1,
 		"gender": "male",
-		"dob": "2017-05-24",
+		"dob": undefined,
 		"email": undefined
 	};
 
 	const [form, setForm] = React.useState(initForm);
 
 	const onSubmitForm = () => {
-		onSignUp(form)
+		onSignUp(form);
 	};
 
 	return (
@@ -66,6 +66,7 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 					/>
 
 					<Select
+						label={'asd'}
 						variant={'filled'}
 						labelId="gender-label"
 						id="gender"
@@ -83,9 +84,7 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 						id="date"
 						label="Birthday"
 						type="date"
-						defaultValue="2017-05-24"
 						onChange={(e) => setForm({ ...form, dob: e.target.value })}
-
 						InputLabelProps={{
 							shrink: true,
 						}}
