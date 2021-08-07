@@ -21,6 +21,7 @@ import SignUpForm from '../SignUpForm';
 import { signIn, signUp } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLoginSuccess, onLogOutSuccess } from '../../core/store/reducer/app/actions';
+import { showErrorAlert, showSuccessAlert } from '../../core/utils';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -131,6 +132,7 @@ export default function PrimarySearchAppBar() {
   const onLogOut = () => {
     dispatch(onLogOutSuccess());
     handleMenuClose();
+    history.push("/");
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -139,28 +141,34 @@ export default function PrimarySearchAppBar() {
 
   const onSignUp = (data) => {
     signUp(data)
-      .then(data => {
-        if (data?._id) {
-          history.push("/myprofile",);
+      .then(rs => {
+        if (rs.success) {
+          closeModal();
+          showSuccessAlert('Sign up successfully.');
+        } else {
+          showErrorAlert("Sign up not successfully.");
         }
       })
       .catch(error => {
+        showErrorAlert("Sign up not successfully.");
         console.log(error);
       });
   };
 
   const onSignIn = (signInReq) => {
     signIn(signInReq)
-      .then(data => {
-        if (data.accessToken) {
-          dispatch(onLoginSuccess(data.accessToken));
+      .then(response => {
+        if (response.success) {
+          dispatch(onLoginSuccess(response.data.accessToken));
+          setIsOpenLogin(false);
+        } else {
+          showErrorAlert("Invalid username or password.");
         }
       })
       .catch(error => {
         console.log(error);
-      })
-      .finally(() => {
-        setIsOpenLogin(false);
+        showErrorAlert("Invalid username or password.");
+
       });
   };
 

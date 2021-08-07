@@ -42,7 +42,6 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 						onChange={(e) => setForm({ ...form, username: e.target.value })}
 						variant={'filled'}
 						style={{ marginTop: 20 }}
-						autoFocus
 						id="username"
 						label="User Name"
 						fullWidth

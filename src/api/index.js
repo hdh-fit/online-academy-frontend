@@ -1,5 +1,7 @@
 import { store } from "../core/store";
 
+const baseUrl = 'https://fit-study.herokuapp.com';
+
 
 export async function signUp(user) {
 	const requestOptions = {
@@ -8,7 +10,7 @@ export async function signUp(user) {
 		body: JSON.stringify(user)
 	};
 	try {
-		const response = await fetch('https://wnc-be.herokuapp.com/api/user/register', requestOptions);
+		const response = await fetch(`${baseUrl}/api/user/register`, requestOptions);
 		const data = await response.json();
 		console.log(data);
 		return data;
@@ -27,7 +29,7 @@ export async function signIn(signInBody) {
 		body: JSON.stringify(signInBody)
 	};
 	try {
-		const response = await fetch('https://wnc-be.herokuapp.com/api/user/login', requestOptions);
+		const response = await fetch(`${baseUrl}/api/user/login`, requestOptions);
 		const data = await response.json();
 		return data;
 	} catch (error) {
@@ -47,11 +49,10 @@ export async function getUserInfo(signInBody) {
 		body: JSON.stringify(signInBody)
 	};
 	try {
-		const response = await fetch('https://wnc-be.herokuapp.com/api/user/info', requestOptions);
+		const response = await fetch(`${baseUrl}/api/user/info`, requestOptions);
 		const data = await response.json();
 		return data;
 	} catch (error) {
-		console.log(error.response.message);
-		return error.response.status;
+		return error;
 	}
 }

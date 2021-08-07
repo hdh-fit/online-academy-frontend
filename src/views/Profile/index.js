@@ -1,16 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Menu from '../../components/Menu';
-import { Avatar, Container, Paper, TextField } from '@material-ui/core';
+import { Avatar, Container, Paper, TextField, Select, MenuItem } from '@material-ui/core';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
 import TypographyMenu from '../../components/MenuProfile';
 import { getUserInfo } from '../../api';
+import moment from 'moment';
 
 const Profile = () => {
+	const initUserState = {
+		dob: "",
+		email: "",
+		fullname: "",
+		gender: "",
+		phone: "",
+		type: undefined,
+		username: "",
+	};
+
+	const [user, setUser] = useState(initUserState);
+
 	useEffect(() => {
 		getUserInfo()
-			.then(data => console.log(data))
+			.then(response => {
+				if (response.success) {
+					setUser(response.data);
+				}
+			})
 			.catch(err => console.log(err));
 	}, []);
+
 	return (
 		<div style={{
 			flex: 1,
@@ -33,12 +51,12 @@ const Profile = () => {
 						</span>
 						<TextField
 							style={{ marginTop: 30 }}
-							id="name"
+							id="email"
 							label="Email"
 							type="email"
 							fullWidth
 							variant="filled"
-							value={'lelongho2003@gmail.com'}
+							value={user.email}
 						/>
 						<TextField
 							style={{ marginTop: 20 }}
@@ -46,15 +64,46 @@ const Profile = () => {
 							label="Full Name"
 							fullWidth
 							variant="filled"
-							value={'Ho Le'}
+							value={user.fullname}
 						/>
 						<TextField
+							variant={'filled'}
+							style={{ marginTop: 20 }}
+							fullWidth
+							id="date"
+							label="Birthday"
+							type="date"
+							value={`${moment(new Date(user.dob)).format("YYYY-MM-DD")}`}
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						<TextField
+							variant={'filled'}
+							style={{ marginTop: 20, marginBottom: 20 }}
+							id="phone"
+							label="Phone Number"
+							value={user.phone}
+							fullWidth
+						/>
+						<Select
+							variant={'filled'}
+							labelId="gender-label"
+							id="gender"
+							value={user.gender}
+							fullWidth
+						>
+							<MenuItem value={'male'}>Male</MenuItem>
+							<MenuItem value={'female'}>Female</MenuItem>
+						</Select>
+						{/*<TextField
 							style={{ marginTop: 20 }}
 							id="password"
 							label="Password"
 							fullWidth
 							variant="filled"
 							type={'password'}
+							value={user.fullname}
 						/>
 						<TextField
 							style={{ marginTop: 20 }}
@@ -63,7 +112,7 @@ const Profile = () => {
 							fullWidth
 							variant="filled"
 							type={'password'}
-						/>
+						/>*/}
 					</Paper>
 				</div>
 			</Container>

@@ -6,11 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function FormDialog({ isOpen, onClose,onSignIn }) {
+export default function FormDialog({ isOpen, onClose, onSignIn }) {
 	const initForm = {
 		"username": undefined,
 		"password": undefined,
-		"type": 1,
 	};
 
 	const [form, setForm] = React.useState(initForm);
@@ -19,22 +18,29 @@ export default function FormDialog({ isOpen, onClose,onSignIn }) {
 		onSignIn(form);
 	};
 
+	const onKeyPress = (event) => {
+		if (event.key === 'Enter') {
+			onSubmitForm();
+		}
+	};
+
 	return (
 		<div>
 			<Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
 				<DialogTitle id="form-dialog-title">Sign In</DialogTitle>
 				<DialogContent>
 					<TextField
-					variant={'filled'}
+						variant={'filled'}
 						onChange={({ target }) => setForm({ ...form, username: target.value })}
 						autoFocus
 						id="username"
 						label="Username"
 						fullWidth
+						onKeyPress={onKeyPress}
 					/>
 					<TextField
-					variant={'filled'}
-
+						variant={'filled'}
+						onKeyPress={onKeyPress}
 						onChange={({ target }) => setForm({ ...form, password: target.value })}
 						style={{ marginTop: 20 }}
 						id="password"
