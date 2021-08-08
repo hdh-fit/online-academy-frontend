@@ -16,15 +16,13 @@ import ReactPlayer from 'react-player';
 const useStyles = makeStyles({
 	root: {
 		marginLeft: 10,
-		maxHeight: 380,
-		width: 600
 	},
 	media: {
 		height: 300,
 	},
 });
 
-export default function CourseDetailCard() {
+export default function CourseDetailCard({videoSrc}) {
 	const classes = useStyles();
 
 	return (
@@ -42,10 +40,10 @@ export default function CourseDetailCard() {
 					</video>*/}
 
 					<ReactPlayer
-						height='100'
+						height='100%'
 						width='100%'
 						controls='true'
-						url='https://dl.dropboxusercontent.com/sh/96mp97f9hxgg8gr/AAAyeXaa-koDco2A13FF6lsBa/Pexels%20Videos%201824697.mp4?dl=0'
+						url={videoSrc}
 					/>
 				</CardContent>
 			</CardActionArea>

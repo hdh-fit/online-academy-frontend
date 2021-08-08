@@ -2,7 +2,7 @@ import Divider from '../Divider';
 import React from 'react';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
-import {ExpandLess, ExpandMore} from '@material-ui/icons';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 
 export default function SimplePopover() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,7 +22,7 @@ export default function SimplePopover() {
     <div>
       <Button
         endIcon={open ? <ExpandLess /> : <ExpandMore />}
-        style={{paddingLeft: 20, paddingBottom: 0, fontSize: 15}}
+        style={{ paddingLeft: 20, paddingBottom: 0, fontSize: 15, fontWeight: 'bold' }}
         onClick={handleClick}>
         {'Danh mục'}
 

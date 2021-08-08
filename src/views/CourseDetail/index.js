@@ -25,7 +25,15 @@ const CourseDetail = () => {
 		"category": "",
 		"review": [
 		],
-		"idTeacher": ""
+		"idTeacher": "",
+		"video": [
+			{
+				"_id": "",
+				"name": "",
+				"link": "",
+				"id_course": ""
+			}
+		]
 	};
 
 	const [course, setCourse] = useState(initCourse);
@@ -218,29 +226,6 @@ const CourseDetail = () => {
 								{renderRatingChart(0.05, 1)}
 							</div>
 						</div>
-						<div style={{ display: 'flex', paddingTop: 20 }}>
-
-							<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
-							<div>
-								<h5 >
-									{'Ankit Krishan Puri'}
-								</h5>
-								<div>
-									{FillStar()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									{OutlinedStart()}
-									<span style={{ fontSize: 12, color: 'GrayText' }}>
-										{'2 weeks ago'}
-									</span>
-								</div>
-								<p style={{ marginTop: 12 }}>
-									The instructor was really amazing and did not let me get bored as he is always curious to teach to his students
-								</p>
-
-							</div>
-						</div>
 						{course.review.map(item => {
 							return (
 								<div style={{ display: 'flex', paddingTop: 20 }}>
@@ -259,7 +244,7 @@ const CourseDetail = () => {
 												{'2 weeks ago'}
 											</span>
 										</div>
-										<p>
+										<p style={{ marginTop: 12 }}>
 											{item.comment}
 										</p>
 									</div>
@@ -268,7 +253,7 @@ const CourseDetail = () => {
 						})}
 					</Paper>
 				</div>
-				<CourseDetailCard />
+				<CourseDetailCard videoSrc={course.video[0]?.link} />
 			</Container>
 		</div>
 	);

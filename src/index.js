@@ -11,9 +11,12 @@ import Profile from './views/Profile';
 import { Provider } from 'react-redux';
 import { persistor, store } from './core/store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <BrowserRouter>
+    <ToastContainer />
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Switch>

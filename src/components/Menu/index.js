@@ -21,8 +21,7 @@ import SignUpForm from '../SignUpForm';
 import { signIn, signUp } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLoginSuccess, onLogOutSuccess } from '../../core/store/reducer/app/actions';
-import { showErrorAlert, showSuccessAlert } from '../../core/utils';
-
+import { showErrorToast, showSuccessAlert } from '../../core/utils';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -146,11 +145,11 @@ export default function PrimarySearchAppBar() {
           closeModal();
           showSuccessAlert('Sign up successfully.');
         } else {
-          showErrorAlert("Sign up not successfully.");
+          showErrorToast("Some thing wrong.");
         }
       })
       .catch(error => {
-        showErrorAlert("Sign up not successfully.");
+        showErrorToast("Some thing wrong.");
         console.log(error);
       });
   };
@@ -162,13 +161,12 @@ export default function PrimarySearchAppBar() {
           dispatch(onLoginSuccess(response.data.accessToken));
           setIsOpenLogin(false);
         } else {
-          showErrorAlert("Invalid username or password.");
+          showErrorToast("Invalid username or password.");
         }
       })
       .catch(error => {
         console.log(error);
-        showErrorAlert("Invalid username or password.");
-
+        showErrorToast("Some thing wrong.");
       });
   };
 

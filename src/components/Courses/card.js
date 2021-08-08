@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     flex: 1,
-    marginRight: 5
+    marginRight: 5,
   },
   media: {
     height: 0,
@@ -39,29 +39,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initCourse = {
+  "_id": "",
+  "feedBack": [],
+  "stt": "",
+  "name": "",
+  "short_described": "",
+  "full_described": "",
+  "rating": "",
+  "image_link": "",
+  "dateCourse": "",
+  "isFinish": false,
+  "view": '',
+  "price": '',
+  "category": "",
+  "review": [
+  ],
+  "idTeacher": "",
+  "video": []
+};
+
 export default function CourseCard({ course }) {
   const classes = useStyles();
   const history = useHistory();
+  const courseData = course ? course : initCourse;
 
   return (
-    <Card onClick={() => history.push(`/course/${course._id}`)} variant="outlined" className={classes.root}>
+    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined" className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
-          alt={course.name}
+          alt={courseData.name}
           height="140"
-          image={course.image_link}
+          image={courseData.image_link}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography style={{ fontWeight: 'bold' }} variant="body1" component="p">
-            {course.name}
+            {courseData.name}
           </Typography>
           <Typography variant="body1" color="textSecondary" component="p">
             {'Jeff'}
           </Typography>
           <Typography variant="body1" component="p">
-            {course.category}
+            {courseData.category}
           </Typography>
           <Grid
             container
@@ -73,11 +94,11 @@ export default function CourseCard({ course }) {
             <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
-              {`(${course.review.length} lượt đánh giá)`}
+              {`(${courseData.review.length} lượt đánh giá)`}
             </span>
           </Grid>
           <div style={{ fontWeight: 'bold' }}>
-            {`${course.price} VND`}
+            {`${courseData.price} VND`}
           </div>
         </CardContent>
       </CardActionArea>
