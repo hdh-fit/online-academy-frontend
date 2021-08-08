@@ -56,7 +56,8 @@ const initCourse = {
   "review": [
   ],
   "idTeacher": "",
-  "video": []
+  "video": [],
+  "nameTeacher": ""
 };
 
 export default function CourseCard({ course }) {
@@ -79,7 +80,7 @@ export default function CourseCard({ course }) {
             {courseData.name}
           </Typography>
           <Typography variant="body1" color="textSecondary" component="p">
-            {'Jeff'}
+            {courseData.nameTeacher}
           </Typography>
           <Typography variant="body1" component="p">
             {courseData.category}

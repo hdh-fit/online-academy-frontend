@@ -35,6 +35,7 @@ const Home = (props) => {
   return (
     <div style={{
       flex: 1,
+      paddingBottom: 24,
     }}>
       <Menu />
       <h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{'Khoá học được xem nhiều nhất'}</h3>
@@ -55,7 +56,7 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard/>)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard />)}
           {[...topView].slice(0, 5).map(course => <CourseCard course={course} />)}
         </Grid>
         <Grid
@@ -63,7 +64,7 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard  />)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard />)}
           {[...topView].slice(5).map(course => <CourseCard course={course} />)}
         </Grid>
       </Carousel>
@@ -85,7 +86,7 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard  />)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard />)}
           {[...topNew].slice(0, 5).map(course => <CourseCard course={course} />)}
         </Grid>
         <Grid
@@ -93,7 +94,7 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard/>)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard />)}
           {[...topNew].slice(5).map(course => <CourseCard course={course} />)}
         </Grid>
       </Carousel>
@@ -103,7 +104,7 @@ const Home = (props) => {
         container
         justifyContent="space-around"
         direction="row">
-        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard/>)}
+        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard />)}
         {[...topNew].slice(6).map(course => <CourseCard course={course} />)}
       </Grid>
     </div>
