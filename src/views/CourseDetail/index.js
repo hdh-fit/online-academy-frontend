@@ -232,7 +232,7 @@ const CourseDetail = () => {
 									<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
 									<div>
 										<h5 >
-											{item.id_user}
+											{item.fullname}
 										</h5>
 										<div>
 											{FillStar()}
@@ -240,7 +240,7 @@ const CourseDetail = () => {
 											{OutlinedStart()}
 											{OutlinedStart()}
 											{OutlinedStart()}
-											<span style={{ fontSize: 12, color: 'GrayText' }}>
+											<span style={{ fontSize: 12, color: 'GrayText', paddingLeft: 8 }}>
 												{'2 weeks ago'}
 											</span>
 										</div>
