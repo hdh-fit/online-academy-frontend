@@ -18,7 +18,7 @@ import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import FormDialog from '../FormDialog';
 import SignUpForm from '../SignUpForm';
-import { signIn, signUp } from '../../api';
+import { getCaterogies, signIn, signUp } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLoginSuccess, onLogOutSuccess } from '../../core/store/reducer/app/actions';
 import { showErrorToast, showSuccessAlert } from '../../core/utils';
@@ -93,6 +93,15 @@ export default function PrimarySearchAppBar() {
   const [isOpenSignUp, setIsSignUp] = React.useState(false);
   const dispatch = useDispatch();
   const appState = useSelector(state => state.app);
+  const [categories, setCategories] = React.useState([]);
+
+  React.useEffect(() => {
+    getCaterogies().then(res => {
+      if (res.success) {
+        setCategories(res.categories);
+      }
+    });
+  }, []);
 
   const onClickLogin = () => {
     setIsOpenLogin(true);
@@ -251,7 +260,7 @@ export default function PrimarySearchAppBar() {
           <Button onClick={() => history.push("/")} className={classes.title}>
             Fitstudy
           </Button>
-          <Popover />
+          <Popover categories={categories}/>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

@@ -4,7 +4,7 @@ import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 
-export default function SimplePopover() {
+export default function SimplePopover({categories}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -41,7 +41,7 @@ export default function SimplePopover() {
           horizontal: 'center',
         }}
       >
-        <Divider />
+        <Divider categories={categories}/>
       </Popover>
     </div>
   );

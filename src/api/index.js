@@ -1,56 +1,57 @@
 import { store } from "../core/store";
-
 const baseUrl = 'https://fit-study.herokuapp.com';
 
+const request = (url, body, method, hasToken) => {
+	return new Promise((resolve, reject) => {
+		const requestOptions = {
+			method,
+			headers: { 'Content-Type': 'application/json' },
+		};
+
+		if (hasToken) {
+			requestOptions.headers.Authorization = `Bearer ${store.getState().app.accessToken}`;
+		}
+
+		if (body) {
+			requestOptions.body = JSON.stringify(body);
+		}
+
+		fetch(url, requestOptions)
+			.then(response => {
+				response.json().then(data => {
+					console.log(data);
+					resolve(data);
+				});
+			})
+			.catch(err => {
+				console.log(err);
+				reject(err);
+			});
+	});
+};
 
 export async function signUp(user) {
-	const requestOptions = {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', },
-		body: JSON.stringify(user)
-	};
 	try {
-		const response = await fetch(`${baseUrl}/api/user/register`, requestOptions);
-		const data = await response.json();
-		console.log(data);
+		const data = await request(`${baseUrl}/api/user/register`, user, 'POST');
 		return data;
 	} catch (error) {
-		console.log(error.response.message);
 		return error.response.status;
 	}
 }
-
 
 
 export async function signIn(signInBody) {
-	const requestOptions = {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', },
-		body: JSON.stringify(signInBody)
-	};
 	try {
-		const response = await fetch(`${baseUrl}/api/user/login`, requestOptions);
-		const data = await response.json();
+		const data = await request(`${baseUrl}/api/user/login`, signInBody, 'POST');
 		return data;
 	} catch (error) {
-		console.log(error.response.message);
 		return error.response.status;
 	}
 }
 
-export async function getUserInfo(signInBody) {
-	console.log(store.getState().app.accessToken);
-	const requestOptions = {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${store.getState().app.accessToken}`
-		},
-		body: JSON.stringify(signInBody)
-	};
+export async function getUserInfo() {
 	try {
-		const response = await fetch(`${baseUrl}/api/user/info`, requestOptions);
-		const data = await response.json();
+		const data = await request(`${baseUrl}/api/user/info`, null, 'GET', true);
 		return data;
 	} catch (error) {
 		return error;
@@ -58,15 +59,8 @@ export async function getUserInfo(signInBody) {
 }
 
 export async function getTopView() {
-	const requestOptions = {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	};
 	try {
-		const response = await fetch(`${baseUrl}/api/course/top-10-view`, requestOptions);
-		const data = await response.json();
+		const data = await request(`${baseUrl}/api/course/top-10-view`, null, 'GET');
 		return data;
 	} catch (error) {
 		return error;
@@ -74,15 +68,8 @@ export async function getTopView() {
 }
 
 export async function getTopNew() {
-	const requestOptions = {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	};
 	try {
-		const response = await fetch(`${baseUrl}/api/course/top-10-date-create`, requestOptions);
-		const data = await response.json();
+		const data = await request(`${baseUrl}/api/course/top-10-date-create`, null, 'GET');
 		return data;
 	} catch (error) {
 		return error;
@@ -90,15 +77,16 @@ export async function getTopNew() {
 }
 
 export async function getCourseDetail(id) {
-	const requestOptions = {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	};
 	try {
-		const response = await fetch(`${baseUrl}/api/course/detail/${id}`, requestOptions);
-		const data = await response.json();
+		const data = await request(`${baseUrl}/api/course/detail/${id}`, null, 'GET');
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+export async function getCaterogies() {
+	try {
+		const data = await request(`${baseUrl}/api/getCategoryAll`, null, 'GET');
 		return data;
 	} catch (error) {
 		return error;
