@@ -55,7 +55,7 @@ const Home = (props) => {
           style={{ paddingInline: 40 }}
           container
           justifyContent="space-around"
-          direction="row">
+        >
           {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
           {[...topView].slice(0, 5).map(course => <CourseCard key={course._id} course={course} />)}
         </Grid>
@@ -105,7 +105,7 @@ const Home = (props) => {
         justifyContent="space-around"
         direction="row">
         {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
-        {[...topNew].slice(6).map(course => <CourseCard course={course} key={course._id}/>)}
+        {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id}/>)}
       </Grid>
     </div>
   );

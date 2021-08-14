@@ -6,6 +6,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import StarBorder from '@material-ui/icons/StarBorder';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,12 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NestedList({ categories }) {
+export default function NestedList({ categories, onCloseMenu }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(undefined);
+  const history = useHistory();
 
-  const handleClick = (index) => {
-    open === index ? setOpen(undefined) : setOpen(index);
+
+  const handleClick = (name) => {
+    history.push(`/category/${name}`);
+    onCloseMenu();
   };
 
   return (
@@ -34,7 +37,7 @@ export default function NestedList({ categories }) {
       className={classes.root}
     >
       {categories.map(category => (
-        <ListItem key={category._id} onClick={() => handleClick(0)} button>
+        <ListItem key={category._id} onClick={() => handleClick(category.name)} button>
           <ListItemIcon>
             <StarBorder />
           </ListItemIcon>

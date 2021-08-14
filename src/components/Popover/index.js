@@ -41,7 +41,7 @@ export default function SimplePopover({categories}) {
           horizontal: 'center',
         }}
       >
-        <Divider categories={categories}/>
+        <Divider onCloseMenu={handleClose} categories={categories}/>
       </Popover>
     </div>
   );

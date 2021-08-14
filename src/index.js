@@ -13,6 +13,7 @@ import { persistor, store } from './core/store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from './views/Search';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ ReactDOM.render(
       <PersistGate persistor={persistor}>
         <Switch>
           <Route path="/course/:id" component={CourseDetail} />
+          <Route path="/category/:keyword" component={Search} />
           <Route path="/myprofile" component={Profile} />
           <Route path="/" component={Home} />
         </Switch>
