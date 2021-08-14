@@ -94,6 +94,17 @@ export default function PrimarySearchAppBar() {
   const dispatch = useDispatch();
   const appState = useSelector(state => state.app);
   const [categories, setCategories] = React.useState([]);
+  const [searchKeyword, setSearchKeyword] = React.useState(false);
+
+  const onSeachKeyChange = (text) => {
+    setSearchKeyword(text);
+  };
+
+  const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      history.push(`/search?course=${searchKeyword}`);
+    }
+  };
 
   React.useEffect(() => {
     getCaterogies().then(res => {
@@ -260,7 +271,7 @@ export default function PrimarySearchAppBar() {
           <Button onClick={() => history.push("/")} className={classes.title}>
             Fitstudy
           </Button>
-          <Popover categories={categories}/>
+          <Popover categories={categories} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -272,6 +283,8 @@ export default function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => onSeachKeyChange(e.target.value)}
+              onKeyPress={onKeyPress}
             />
           </div>
           <div className={classes.grow} />

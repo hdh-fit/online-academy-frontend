@@ -101,3 +101,12 @@ export async function getCourseByCategoryName(name) {
 		return error;
 	}
 }
+
+export async function searchCourse(name) {
+	try {
+		const data = await request(`${baseUrl}/api/search/${name}`, null, 'GET');
+		return data;
+	} catch (error) {
+		return error;
+	}
+}

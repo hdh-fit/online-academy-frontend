@@ -22,7 +22,7 @@ ReactDOM.render(
       <PersistGate persistor={persistor}>
         <Switch>
           <Route path="/course/:id" component={CourseDetail} />
-          <Route path="/category/:keyword" component={Search} />
+          <Route path="/search" component={Search} />
           <Route path="/myprofile" component={Profile} />
           <Route path="/" component={Home} />
         </Switch>

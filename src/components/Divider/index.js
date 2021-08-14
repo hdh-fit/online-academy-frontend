@@ -25,8 +25,8 @@ export default function NestedList({ categories, onCloseMenu }) {
   const history = useHistory();
 
 
-  const handleClick = (name) => {
-    history.push(`/category/${name}`);
+  const handleClick = (category) => {
+    history.push(`/search?category=${category.name}&label=${category.label}`);
     onCloseMenu();
   };
 
@@ -37,7 +37,7 @@ export default function NestedList({ categories, onCloseMenu }) {
       className={classes.root}
     >
       {categories.map(category => (
-        <ListItem key={category._id} onClick={() => handleClick(category.name)} button>
+        <ListItem key={category._id} onClick={() => handleClick(category)} button>
           <ListItemIcon>
             <StarBorder />
           </ListItemIcon>
