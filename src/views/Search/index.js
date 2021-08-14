@@ -47,7 +47,7 @@ const Search = (props) => {
 			paddingBottom: 24,
 		}}>
 			<Menu />
-			<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || searchKeyword && `#${searchKeyword}`}</h3>
+			<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || (searchKeyword && `#${searchKeyword}`)}</h3>
 			<Grid
 				style={{ paddingInline: 40 }}
 				container
