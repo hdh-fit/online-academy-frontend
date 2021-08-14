@@ -5,6 +5,7 @@ import image from '../../components/Courses/contemplative-reptile.jpeg';
 import TypographyMenu from '../../components/MenuProfile';
 import { getUserInfo } from '../../api';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
 	const initUserState = {
@@ -18,6 +19,7 @@ const Profile = () => {
 	};
 
 	const [user, setUser] = useState(initUserState);
+	const history = useHistory();
 
 	useEffect(() => {
 		getUserInfo()
@@ -29,6 +31,10 @@ const Profile = () => {
 			.catch(err => console.log(err));
 	}, []);
 
+	const onPressMyCourse = () => {
+		history.push("/search?type=My Course");
+	};
+
 	return (
 		<div style={{
 			flex: 1,
@@ -38,7 +44,7 @@ const Profile = () => {
 				<div style={{ flex: 1 }}>
 					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12 }} variant="outlined">
 						<Avatar alt="Remy Sharp" src={image} style={{ height: 150, width: 150, }} />
-						<TypographyMenu />
+						<TypographyMenu onPressMyCourse={onPressMyCourse} />
 					</Paper>
 				</div>
 				<div style={{ flex: 6, marginLeft: 12 }}>

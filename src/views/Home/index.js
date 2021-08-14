@@ -42,7 +42,7 @@ const Home = (props) => {
       <Carousel
         navButtonsProps={{
           style: {
-            marginTop: -60
+            marginTop: -60,
           }
         }}
         navButtonsAlwaysVisible
@@ -54,18 +54,16 @@ const Home = (props) => {
         <Grid
           style={{ paddingInline: 40 }}
           container
-          justifyContent="space-around"
         >
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
           {[...topView].slice(0, 5).map(course => <CourseCard key={course._id} course={course} />)}
         </Grid>
         <Grid
           style={{ paddingInline: 40 }}
           container
-          justifyContent="space-around"
           direction="row">
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
-          {[...topView].slice(5).map(course => <CourseCard course={course} key={course._id}/>)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {[...topView].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
         </Grid>
       </Carousel>
       <h3 style={{ paddingLeft: 40 }}>{'Khoá học mới nhất'}</h3>
@@ -86,26 +84,27 @@ const Home = (props) => {
           container
           justifyContent="space-around"
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
-          {[...topNew].slice(0, 5).map(course => <CourseCard course={course} key={course._id}/>)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {[...topNew].slice(0, 5).map(course => <CourseCard course={course} key={course._id} />)}
         </Grid>
         <Grid
           style={{ paddingInline: 40 }}
           container
           justifyContent="space-around"
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
-          {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id}/>)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
         </Grid>
       </Carousel>
       <h3 style={{ paddingLeft: 40 }}>{'Khoá học nổi bật'}</h3>
       <Grid
         style={{ paddingInline: 40 }}
         container
-        justifyContent="space-around"
+        alignItems="center"
+        justifyContent="center"
         direction="row">
-        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course}/>)}
-        {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id}/>)}
+        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+        {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
       </Grid>
     </div>
   );

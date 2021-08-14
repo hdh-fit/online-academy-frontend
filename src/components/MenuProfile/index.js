@@ -15,13 +15,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TypographyMenu() {
+export default function TypographyMenu({ onPressMyCourse }) {
   const classes = useStyles();
 
   return (
     <Paper className={classes.root}>
       <MenuList>
-        <MenuItem>
+        <MenuItem onClick={onPressMyCourse}>
           <ListItemIcon>
             <SendIcon fontSize="small" />
           </ListItemIcon>

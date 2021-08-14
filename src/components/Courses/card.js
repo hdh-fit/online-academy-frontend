@@ -42,11 +42,13 @@ export default function CourseCard({ course, isFromSeach }) {
 
   const cardStyle = {
     minWidth: 260,
-    maxWidth: isFromSeach ? 260 : 400,
     flex: 1,
     marginRight: 5,
-    marginTop: 5
+    marginTop: 5,
+    maxWidth: isFromSeach ? 260 : 260,
   };
+
+
 
   return (
     <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined" style={cardStyle}>
@@ -77,9 +79,11 @@ export default function CourseCard({ course, isFromSeach }) {
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
-              {`(${courseData.review.length} lượt đánh giá)`}
-            </span>
+            {courseData.review && (
+              <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
+                {`(${courseData.review?.length} lượt đánh giá)`}
+              </span>
+            )}
           </Grid>
           <div style={{ fontWeight: 'bold' }}>
             {`${courseData.price} VND`}

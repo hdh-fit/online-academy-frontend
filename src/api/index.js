@@ -110,3 +110,32 @@ export async function searchCourse(name) {
 		return error;
 	}
 }
+
+export async function submitReview(body, courseId) {
+	try {
+		const data = await request(`${baseUrl}/api/review/${courseId}`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function joinCourse(idcourse) {
+
+	try {
+		const data = await request(`${baseUrl}/api/user/joinCourse`, { idcourse }, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function getJoinedCourse() {
+
+	try {
+		const data = await request(`${baseUrl}/api/user/listCourse`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}

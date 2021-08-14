@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseByCategoryName, searchCourse } from '../../api';
+import { getCourseByCategoryName, getJoinedCourse, searchCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 
@@ -16,9 +16,7 @@ const Search = (props) => {
 	const categoryName = query.get("category");
 	const searchKeyword = query.get("course");
 	const categoryLabel = query.get("label");
-
-	console.log(searchKeyword);
-
+	const type = query.get("type");
 
 	useEffect(() => {
 		if (!!categoryName) {
@@ -37,7 +35,15 @@ const Search = (props) => {
 					}
 				});
 		}
-	}, [categoryName, searchKeyword]);
+		if (type === 'My Course') {
+			getJoinedCourse().then(res => {
+				if (res.success) {
+					setCourses(res.data);
+				} else {
+				}
+			});
+		}
+	}, [categoryName, searchKeyword, type]);
 
 
 
@@ -47,7 +53,7 @@ const Search = (props) => {
 			paddingBottom: 24,
 		}}>
 			<Menu />
-			<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || (searchKeyword && `#${searchKeyword}`)}</h3>
+			<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || (searchKeyword && `#${searchKeyword}`) || type}</h3>
 			<Grid
 				style={{ paddingInline: 40 }}
 				container

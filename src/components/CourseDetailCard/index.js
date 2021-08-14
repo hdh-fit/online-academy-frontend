@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function CourseDetailCard({videoSrc}) {
+export default function CourseDetailCard({ videoSrc, onBuyCourse }) {
 	const classes = useStyles();
 
 	return (
@@ -51,7 +51,13 @@ export default function CourseDetailCard({videoSrc}) {
 				<Button variant={'contained'} size="medium" style={{ backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold', width: 140 }}>
 					Add to card
 				</Button>
-				<Button size="medium" variant={'contained'} style={{ width: 140, fontWeight: 'bold' }} color="inherit">
+				<Button
+					size="medium"
+					variant={'contained'}
+					style={{ width: 140, fontWeight: 'bold' }}
+					color="inherit"
+					onClick={onBuyCourse}
+				>
 					Buy now
 				</Button>
 			</CardActions>

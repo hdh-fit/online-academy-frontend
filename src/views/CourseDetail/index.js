@@ -3,11 +3,14 @@ import Menu from '../../components/Menu';
 import { useParams } from "react-router-dom";
 import './course.css';
 import { Star, StarOutlineOutlined } from '@material-ui/icons';
-import { Avatar, Container, Grid, Paper } from '@material-ui/core';
+import { Avatar, Button, Container, Grid, Paper } from '@material-ui/core';
 import CourseContent from '../../components/CoursesContent';
 import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
-import { getCourseDetail } from '../../api';
+import { getCourseDetail, joinCourse, submitReview } from '../../api';
+import ReviewDialog from '../../components/ReviewDialog';
+import { showErrorToast, showSuccessToast } from '../../core/utils';
+import { useSelector } from 'react-redux';
 
 const CourseDetail = () => {
 	let { id } = useParams();
@@ -37,6 +40,9 @@ const CourseDetail = () => {
 	};
 
 	const [course, setCourse] = useState(initCourse);
+	const [openReview, setOpenReview] = useState(false);
+	const appState = useSelector(state => state.app);
+
 
 	useEffect(() => {
 		getCourse();
@@ -52,56 +58,53 @@ const CourseDetail = () => {
 			});
 	};
 
+	const onSubmitReview = (body) => {
+		submitReview(body, course._id)
+			.then(res => {
+				if (res.success) {
+					let newReviews = course.review;
+					newReviews.unshift(res.data.review);
+					setCourse({ ...course, review: newReviews, rating: res.data.courseRating });
+					setOpenReview(false);
+				} else {
+					showErrorToast(res.error_message);
+				}
+			})
+			.catch(err => {
+				showErrorToast(`${err}`);
+			});
+	};
+
+	const onBuyCourse = () => {
+		joinCourse(course._id)
+			.then(res => {
+				if (res.success) {
+					showSuccessToast('Buy course successfully.');
+				} else {
+					showErrorToast(res.error_message);
+				}
+			})
+			.catch(err => {
+				showErrorToast(`${err}`);
+			});
+	};
+
 	const FillStar = (size = 17) => <Star style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
 	const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
 
-	const renderRatingChart = (percent, type) => {
+	const renderRatingChart = (type) => {
+		const count = course.review.filter(item => item.rate === type).length;
+		console.log(type, count);
+		const percent = count / course.review.length;
+
 		return (
 			<div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
 				<div style={{ width: 380, height: 9, backgroundColor: 'rgb(165,169,172)', display: 'flex', marginRight: 5 }}>
 					<div style={{ backgroundColor: 'gray', flex: percent }} />
 				</div>
-				{type === 1
-					? <React.Fragment>
-						{FillStar()}
-						{OutlinedStart()}
-						{OutlinedStart()}
-						{OutlinedStart()}
-						{OutlinedStart()}
-					</React.Fragment>
-					: type === 2
-						? <React.Fragment>
-							{FillStar()}
-							{FillStar()}
-							{OutlinedStart()}
-							{OutlinedStart()}
-							{OutlinedStart()}
-						</React.Fragment>
-						: type === 3
-							? <React.Fragment>
-								{FillStar()}
-								{FillStar()}
-								{FillStar()}
-								{OutlinedStart()}
-								{OutlinedStart()}
-							</React.Fragment>
-							: type === 4
-								? <React.Fragment>
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-									{OutlinedStart()}
-								</React.Fragment>
-								: <React.Fragment>
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-									{FillStar()}
-								</React.Fragment>}
+				{[1, 2, 3, 4, 5].map(starPoint => (type >= starPoint ? FillStar() : OutlinedStart()))}
 				<span style={{ color: 'rgb(73,46,187)', paddingLeft: 5, fontSize: 14 }}>
-					{`${percent * 100}%`}
+					{`${(percent * 100).toFixed(0)}%`}
 				</span>
 			</div>
 		);
@@ -125,11 +128,7 @@ const CourseDetail = () => {
 						{course.short_described}
 					</span>
 					<Grid alignItems='center' direction='row'>
-						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
-						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
-						<Star style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
-						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
-						<StarOutlineOutlined style={{ fontSize: 17, fill: "rgb(219,154,60)" }} />
+						{[1, 2, 3, 4, 5].map(starPoint => (course.rating >= starPoint ? FillStar() : OutlinedStart()))}
 						<span style={{ fontSize: 14 }}>
 							{` (${course.review.length} ratings) 326,026 students`}
 						</span>
@@ -188,9 +187,26 @@ const CourseDetail = () => {
 						</p>
 					</Paper>
 					<Paper style={{ marginTop: 20, padding: 20, marginBottom: 20 }} variant="outlined">
-						<h3 >
-							{'Reviews'}
-						</h3>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<h3 >
+								{'Reviews'}
+							</h3>
+							{appState.isLogin && (
+								<Button
+									onClick={() => setOpenReview(true)}
+									variant={'contained'}
+									size="medium"
+									style={{
+										backgroundColor: 'rgb(28,29,31)',
+										color: 'white',
+										fontWeight: 'bold',
+										width: 140
+									}}>
+									{'ADD REVIEW'}
+								</Button>
+							)}
+
+						</div>
 						<div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
 							<div style={{
 								color: "rgb(219,154,60)",
@@ -205,45 +221,35 @@ const CourseDetail = () => {
 									color: "rgb(171,108,41)",
 									fontSize: 65,
 								}}>
-									{'4.0'}
+									{course.rating.toFixed(1)}
 								</span>
 								<div style={{ marginTop: -20 }}>
-									{FillStar(19)}
-									{FillStar(19)}
-									{FillStar(19)}
-									{FillStar(19)}
-									{OutlinedStart(19)}
+									{[1, 2, 3, 4, 5].map(starPoint => (course.rating >= starPoint ? FillStar(19) : OutlinedStart(19)))}
 								</div>
 								<span style={{ fontWeight: 'bold', fontSize: 15 }}>
 									{'Course Rating'}
 								</span>
 							</div>
 							<div style={{ flex: 1 }}>
-								{renderRatingChart(0.54, 5)}
-								{renderRatingChart(0.5, 4)}
-								{renderRatingChart(0.2, 3)}
-								{renderRatingChart(0.1, 2)}
-								{renderRatingChart(0.05, 1)}
+								{renderRatingChart(5)}
+								{renderRatingChart(4)}
+								{renderRatingChart(3)}
+								{renderRatingChart(2)}
+								{renderRatingChart(1)}
 							</div>
 						</div>
-						{course.review.map(item => {
+						{course.review.map((item, index) => {
 							return (
-								<div style={{ display: 'flex', paddingTop: 20 }}>
+								<div key={`${item._id}`} style={{ display: 'flex', paddingTop: 20 }}>
 									<Avatar alt="Remy Sharp" src={image} style={{ marginRight: 20 }} />
 									<div>
 										<h5 >
 											{item.fullname}
 										</h5>
-										<div>
-											{FillStar()}
-											{FillStar()}
-											{OutlinedStart()}
-											{OutlinedStart()}
-											{OutlinedStart()}
-											<span style={{ fontSize: 12, color: 'GrayText', paddingLeft: 8 }}>
-												{'2 weeks ago'}
-											</span>
-										</div>
+										{[1, 2, 3, 4, 5].map(starPoint => (item.rate >= starPoint ? FillStar(19) : OutlinedStart(19)))}
+										<span style={{ fontSize: 12, color: 'GrayText', paddingLeft: 8 }}>
+											{'2 weeks ago'}
+										</span>
 										<p style={{ marginTop: 12 }}>
 											{item.comment}
 										</p>
@@ -253,12 +259,16 @@ const CourseDetail = () => {
 						})}
 					</Paper>
 				</div>
-				<CourseDetailCard videoSrc={course.video[0]?.link} />
+				<CourseDetailCard onBuyCourse={onBuyCourse} videoSrc={course.video[0]?.link} />
 			</Container>
+			{<ReviewDialog
+				onSubmit={onSubmitReview}
+				open={openReview}
+				onClose={() => setOpenReview(false)} />
+			}
 		</div>
 	);
 };
 
 export default CourseDetail;
-
 
