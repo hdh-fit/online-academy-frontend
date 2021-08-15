@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getCourseByCategoryName, getJoinedCourse, getWatchList, searchCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
+import BasicPagination from '../../components/Paging';
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
@@ -17,10 +18,11 @@ const Search = (props) => {
 	const searchKeyword = query.get("course");
 	const categoryLabel = query.get("label");
 	const type = query.get("type");
+	const [page, setPage] = useState(1);
 
 	useEffect(() => {
 		if (!!categoryName) {
-			getCourseByCategoryName(categoryName).then(res => {
+			getCourseByCategoryName(categoryName, page).then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				}
@@ -52,7 +54,7 @@ const Search = (props) => {
 				}
 			});
 		}
-	}, [categoryName, searchKeyword, type]);
+	}, [categoryName, searchKeyword, type, page]);
 
 
 
@@ -71,6 +73,9 @@ const Search = (props) => {
 				{courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
 				{[...courses].map(course => <CourseCard course={course} key={course._id} isFromSeach />)}
 			</Grid>
+			<div style={{ display: 'flex', justifyContent: 'center' }}>
+				<BasicPagination onChange={setPage} />
+			</div>
 		</div>
 	);
 };
