@@ -104,7 +104,7 @@ export async function getCaterogies() {
 
 export async function getCourseByCategoryName(name) {
 	try {
-		const data = await request(`${baseUrl}/api/getCourseByCategoryName/${name}`, null, 'GET');
+		const data = await request(`${baseUrl}/api/getCourseByCategoryName/${name}/1/5`, null, 'GET');
 		return data;
 	} catch (error) {
 		return error;
