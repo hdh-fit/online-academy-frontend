@@ -21,7 +21,7 @@ const initCourse = {
   "name": "",
   "short_described": "",
   "full_described": "",
-  "rating": "",
+  "rating": 0,
   "image_link": "",
   "dateCourse": "",
   "isFinish": false,
@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const FillStar = (size = 17) => <Star style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
+const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
+
 
 
 
@@ -80,7 +83,7 @@ export default function CourseCard({ course, isFromSeach }) {
 
 
   return (
-    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined"  className={classes.root}>
+    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined" className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -103,11 +106,12 @@ export default function CourseCard({ course, isFromSeach }) {
             container
             alignItems={'center'}
             direction="row">
-            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            {[1, 2, 3, 4, 5].map(starPoint => (courseData?.rating?.toFixed(0) >= starPoint ? FillStar() : OutlinedStart()))}
+            {/*<Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
             <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
+            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />*/}
             {courseData.review && (
               <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
                 {`(${courseData.review?.length} lượt đánh giá)`}

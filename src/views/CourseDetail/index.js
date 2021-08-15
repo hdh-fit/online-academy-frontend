@@ -174,7 +174,7 @@ const CourseDetail = () => {
 						{course.short_described}
 					</span>
 					<Grid alignItems='center' direction='row'>
-						{[1, 2, 3, 4, 5].map(starPoint => (course.rating >= starPoint ? FillStar() : OutlinedStart()))}
+						{[1, 2, 3, 4, 5].map(starPoint => (course.rating.toFixed(0) >= starPoint ? FillStar() : OutlinedStart()))}
 						<span style={{ fontSize: 14 }}>
 							{` (${course.review.length} ratings) 326,026 students`}
 						</span>
@@ -270,7 +270,7 @@ const CourseDetail = () => {
 									{course.rating.toFixed(1)}
 								</span>
 								<div style={{ marginTop: -20 }}>
-									{[1, 2, 3, 4, 5].map(starPoint => (course.rating >= starPoint ? FillStar(19) : OutlinedStart(19)))}
+									{[1, 2, 3, 4, 5].map(starPoint => (course.rating.toFixed(0) >= starPoint ? FillStar(19) : OutlinedStart(19)))}
 								</div>
 								<span style={{ fontWeight: 'bold', fontSize: 15 }}>
 									{'Course Rating'}
