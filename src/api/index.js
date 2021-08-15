@@ -67,6 +67,15 @@ export async function getTopView() {
 	}
 }
 
+export async function getBestCourses() {
+	try {
+		const data = await request(`${baseUrl}/api/getBestCourses`, null, 'GET');
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
 export async function getTopNew() {
 	try {
 		const data = await request(`${baseUrl}/api/course/top-10-date-create`, null, 'GET');
@@ -121,7 +130,6 @@ export async function submitReview(body, courseId) {
 }
 
 export async function joinCourse(idcourse) {
-
 	try {
 		const data = await request(`${baseUrl}/api/user/joinCourse`, { idcourse }, 'POST', true);
 		return data;
@@ -131,7 +139,6 @@ export async function joinCourse(idcourse) {
 }
 
 export async function getJoinedCourse() {
-
 	try {
 		const data = await request(`${baseUrl}/api/user/listCourse`, null, 'GET', true);
 		return data;
@@ -141,7 +148,6 @@ export async function getJoinedCourse() {
 }
 
 export async function addToWatchlist(course) {
-
 	try {
 		const data = await request(`${baseUrl}/api/user/watchlist`, { course }, 'POST', true);
 		return data;
@@ -151,7 +157,6 @@ export async function addToWatchlist(course) {
 }
 
 export async function getWatchList() {
-
 	try {
 		const data = await request(`${baseUrl}/api/user/watchlist`, null, 'GET', true);
 		return data;

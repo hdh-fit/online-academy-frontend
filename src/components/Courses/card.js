@@ -11,6 +11,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import { Star, StarOutlineOutlined } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 
 const initCourse = {
   "_id": "",
@@ -33,9 +35,36 @@ const initCourse = {
   "nameTeacher": ""
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 400,
+    flex: 1,
+    marginRight: 5,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
+
 
 
 export default function CourseCard({ course, isFromSeach }) {
+  const classes = useStyles();
   const history = useHistory();
   const courseData = course ? course : initCourse;
 
@@ -51,7 +80,7 @@ export default function CourseCard({ course, isFromSeach }) {
 
 
   return (
-    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined" style={cardStyle}>
+    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined"  className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"

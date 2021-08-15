@@ -1,17 +1,19 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { getTopNew, getTopView } from '../../api';
+import { getBestCourses, getTopNew, getTopView } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 
 const Home = (props) => {
   const [topView, setTopView] = useState([]);
   const [topNew, setTopNew] = useState([]);
+  const [bestCourse, setBestCourse] = useState([]);
 
   useEffect(() => {
     getCourseNew();
     getCourseTopView();
+    getBestCourseList();
   }, []);
 
   const getCourseNew = () => {
@@ -28,6 +30,15 @@ const Home = (props) => {
       .then(response => {
         if (response.success) {
           setTopView(response.data);
+        }
+      });
+  };
+
+  const getBestCourseList = () => {
+    getBestCourses()
+      .then(response => {
+        if (response.success) {
+          setBestCourse(response.data);
         }
       });
   };
@@ -54,6 +65,7 @@ const Home = (props) => {
         <Grid
           style={{ paddingInline: 40 }}
           container
+          direction="row"
         >
           {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
           {[...topView].slice(0, 5).map(course => <CourseCard key={course._id} course={course} />)}
@@ -82,7 +94,6 @@ const Home = (props) => {
         <Grid
           style={{ paddingInline: 40 }}
           container
-          justifyContent="space-around"
           direction="row">
           {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
           {[...topNew].slice(0, 5).map(course => <CourseCard course={course} key={course._id} />)}
@@ -90,7 +101,6 @@ const Home = (props) => {
         <Grid
           style={{ paddingInline: 40 }}
           container
-          justifyContent="space-around"
           direction="row">
           {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
           {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
@@ -104,7 +114,7 @@ const Home = (props) => {
         justifyContent="center"
         direction="row">
         {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
-        {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
+        {[...bestCourse].map(course => <CourseCard course={course} key={course._id} />)}
       </Grid>
     </div>
   );
