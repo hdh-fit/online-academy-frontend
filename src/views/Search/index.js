@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseByCategoryName, getJoinedCourse, searchCourse } from '../../api';
+import { getCourseByCategoryName, getJoinedCourse, getWatchList, searchCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 
@@ -37,6 +37,15 @@ const Search = (props) => {
 		}
 		if (type === 'My Course') {
 			getJoinedCourse().then(res => {
+				if (res.success) {
+					setCourses(res.data);
+				} else {
+				}
+			});
+		}
+
+		if (type === 'Watch List') {
+			getWatchList().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {

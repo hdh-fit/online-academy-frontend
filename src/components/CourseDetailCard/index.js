@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function CourseDetailCard({ videoSrc, onBuyCourse }) {
+export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList }) {
 	const classes = useStyles();
 
 	return (
@@ -48,19 +48,25 @@ export default function CourseDetailCard({ videoSrc, onBuyCourse }) {
 				</CardContent>
 			</CardActionArea>
 			<CardActions style={{ justifyContent: 'center' }}>
-				<Button variant={'contained'} size="medium" style={{ backgroundColor: 'rgb(28,29,31)', color: 'white', fontWeight: 'bold', width: 140 }}>
-					Add to card
+				<Button
+					variant={'contained'}
+					size="medium"
+					style={{ fontWeight: 'bold', width: 150 }}
+					onClick={onAddWatchList}
+					color={isInWatchList ? 'primary' : 'secondary'}
+				>
+					{!isInWatchList ? '(+) Watch List' : '(-) Watch List'}
 				</Button>
 				<Button
 					size="medium"
 					variant={'contained'}
-					style={{ width: 140, fontWeight: 'bold' }}
-					color="inherit"
-					onClick={onBuyCourse}
+					style={{ width: 150, fontWeight: 'bold' }}
+					color={isMyCourse ? 'primary' : 'secondary'}
+					onClick={isMyCourse ? null : onBuyCourse}
 				>
-					Buy now
+					{isMyCourse ? 'Enrolled' : 'Enroll'}
 				</Button>
 			</CardActions>
-		</Card>
+		</Card >
 	);
 }

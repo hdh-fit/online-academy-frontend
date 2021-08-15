@@ -139,3 +139,23 @@ export async function getJoinedCourse() {
 		return error;
 	}
 }
+
+export async function addToWatchlist(course) {
+
+	try {
+		const data = await request(`${baseUrl}/api/user/watchlist`, { course }, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function getWatchList() {
+
+	try {
+		const data = await request(`${baseUrl}/api/user/watchlist`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}

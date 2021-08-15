@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TypographyMenu({ onPressMyCourse }) {
+export default function TypographyMenu({ onPressMyCourse, onPressWatchlist }) {
   const classes = useStyles();
 
   return (
@@ -27,11 +27,11 @@ export default function TypographyMenu({ onPressMyCourse }) {
           </ListItemIcon>
           <Typography variant="inherit">My Courses</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={onPressWatchlist}>
           <ListItemIcon>
             <PriorityHighIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="inherit">Wish Course</Typography>
+          <Typography variant="inherit">Watch List</Typography>
         </MenuItem>
         {/*<MenuItem>
           <ListItemIcon>

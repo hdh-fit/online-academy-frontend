@@ -35,6 +35,10 @@ const Profile = () => {
 		history.push("/search?type=My Course");
 	};
 
+	const onPressWatchlist = () => {
+		history.push("/search?type=Watch List");
+	};
+
 	return (
 		<div style={{
 			flex: 1,
@@ -44,7 +48,10 @@ const Profile = () => {
 				<div style={{ flex: 1 }}>
 					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12 }} variant="outlined">
 						<Avatar alt="Remy Sharp" src={image} style={{ height: 150, width: 150, }} />
-						<TypographyMenu onPressMyCourse={onPressMyCourse} />
+						<TypographyMenu
+							onPressWatchlist={onPressWatchlist}
+							onPressMyCourse={onPressMyCourse}
+						/>
 					</Paper>
 				</div>
 				<div style={{ flex: 6, marginLeft: 12 }}>

@@ -7,7 +7,7 @@ import { Avatar, Button, Container, Grid, Paper } from '@material-ui/core';
 import CourseContent from '../../components/CoursesContent';
 import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
-import { getCourseDetail, joinCourse, submitReview } from '../../api';
+import { addToWatchlist, getCourseDetail, getJoinedCourse, getWatchList, joinCourse, submitReview } from '../../api';
 import ReviewDialog from '../../components/ReviewDialog';
 import { showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
@@ -42,6 +42,8 @@ const CourseDetail = () => {
 	const [course, setCourse] = useState(initCourse);
 	const [openReview, setOpenReview] = useState(false);
 	const appState = useSelector(state => state.app);
+	const [isMyCourse, setIsMyCourse] = useState(false);
+	const [isInWatchList, setIsInWatchList] = useState(false);
 
 
 	useEffect(() => {
@@ -54,6 +56,25 @@ const CourseDetail = () => {
 			.then(response => {
 				if (response.success) {
 					setCourse(response.data);
+					if (appState.isLogin) {
+						getJoinedCourse().then(res => {
+							if (res.success) {
+								const findCourse = res.data.findIndex(item => item._id === response.data._id);
+								if (findCourse !== -1) {
+									setIsMyCourse(true);
+								}
+							}
+						});
+
+						getWatchList().then(res => {
+							if (res.success) {
+								const findCourse = res.data.findIndex(item => item._id === response.data._id);
+								if (findCourse !== -1) {
+									setIsInWatchList(true);
+								}
+							}
+						});
+					}
 				}
 			});
 	};
@@ -76,17 +97,42 @@ const CourseDetail = () => {
 	};
 
 	const onBuyCourse = () => {
-		joinCourse(course._id)
-			.then(res => {
-				if (res.success) {
-					showSuccessToast('Buy course successfully.');
-				} else {
-					showErrorToast(res.error_message);
-				}
-			})
-			.catch(err => {
-				showErrorToast(`${err}`);
-			});
+		if (appState.isLogin) {
+
+			joinCourse(course._id)
+				.then(res => {
+					if (res.success) {
+						setIsMyCourse(true);
+						showSuccessToast('Buy course successfully.');
+					} else {
+						showErrorToast(res.error_message);
+					}
+				})
+				.catch(err => {
+					showErrorToast(`${err}`);
+				});
+		} else {
+			showErrorToast(`You need login to enroll course.`);
+		}
+	};
+
+	const onAddWatchList = () => {
+		if (appState.isLogin) {
+			addToWatchlist(course._id)
+				.then(res => {
+					if (res.success) {
+						showSuccessToast(isInWatchList ? 'Remove course from watch list successfully.' : 'Add course to watch list successfully.');
+						setIsInWatchList(prev => !prev);
+					} else {
+						showErrorToast(res.error_message);
+					}
+				})
+				.catch(err => {
+					showErrorToast(`${err}`);
+				});
+		} else {
+			showErrorToast(`You need login to add course to watch list.`);
+		}
 	};
 
 	const FillStar = (size = 17) => <Star style={{ fontSize: size, fill: "rgb(219,154,60)" }} />;
@@ -259,7 +305,12 @@ const CourseDetail = () => {
 						})}
 					</Paper>
 				</div>
-				<CourseDetailCard onBuyCourse={onBuyCourse} videoSrc={course.video[0]?.link} />
+				<CourseDetailCard
+					isMyCourse={isMyCourse}
+					isInWatchList={isInWatchList}
+					onBuyCourse={onBuyCourse}
+					onAddWatchList={onAddWatchList}
+					videoSrc={course.video[0]?.link} />
 			</Container>
 			{<ReviewDialog
 				onSubmit={onSubmitReview}
