@@ -7,15 +7,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 //import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-
+import Favorite from '@material-ui/icons/Favorite';
+import { Security } from '@material-ui/icons';
 const useStyles = makeStyles({
   root: {
     width: 230,
   },
 });
 
-export default function TypographyMenu({ onPressMyCourse, onPressWatchlist }) {
+export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPressChangePass }) {
   const classes = useStyles();
 
   return (
@@ -29,9 +29,15 @@ export default function TypographyMenu({ onPressMyCourse, onPressWatchlist }) {
         </MenuItem>
         <MenuItem onClick={onPressWatchlist}>
           <ListItemIcon>
-            <PriorityHighIcon fontSize="small" />
+            <Favorite fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit">Watch List</Typography>
+        </MenuItem>
+        <MenuItem onClick={onPressChangePass}>
+          <ListItemIcon>
+            <Security fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit">Change Password</Typography>
         </MenuItem>
         {/*<MenuItem>
           <ListItemIcon>

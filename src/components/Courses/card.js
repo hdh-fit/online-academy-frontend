@@ -6,13 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import { Star, StarOutlineOutlined } from '@material-ui/icons';
+import { Star, StarOutlineOutlined, NewReleases, Favorite } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
+import moment from 'moment';
 
 const initCourse = {
   "_id": "",
@@ -23,7 +22,7 @@ const initCourse = {
   "full_described": "",
   "rating": 0,
   "image_link": "",
-  "dateCourse": "",
+  "dateCourse": undefined,
   "isFinish": false,
   "view": '',
   "price": '',
@@ -70,21 +69,13 @@ export default function CourseCard({ course, isFromSeach }) {
   const classes = useStyles();
   const history = useHistory();
   const courseData = course ? course : initCourse;
-
-
-  //const cardStyle = {
-  //  minWidth: 260,
-  //  flex: 1,
-  //  marginRight: 5,
-  //  marginTop: 5,
-  //  maxWidth: isFromSeach ? 260 : 260,
-  //};
-
+  const a = moment(new Date(courseData.dateCourse));
+  const today = moment(new Date());
 
 
   return (
-    <Card onClick={() => history.push(`/course/${courseData._id}`)} variant="outlined" className={classes.root}>
-      <CardActionArea>
+    <Card variant="outlined" className={classes.root}>
+      <CardActionArea onClick={() => history.push(`/course/${courseData._id}`)}>
         <CardMedia
           component="img"
           alt={courseData.name}
@@ -124,12 +115,13 @@ export default function CourseCard({ course, isFromSeach }) {
         </CardContent>
       </CardActionArea>
       <CardActions style={{ padding: 0, margin: 0 }} disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton onClick={null} aria-label="share">
+          <Favorite color={'error'} />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        {today.diff(a, 'days') <= 1 && <IconButton onClick={null} aria-label="share">
+          <NewReleases color={'error'} />
         </IconButton>
+        }
       </CardActions>
     </Card>
   );

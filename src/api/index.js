@@ -164,3 +164,21 @@ export async function getWatchList() {
 		return error;
 	}
 }
+
+export async function updateProfile(body) {
+	try {
+		const data = await request(`${baseUrl}/api/user/info`, body, 'PUT', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function changePassword(body) {
+	try {
+		const data = await request(`${baseUrl}/api/user/password`, body, 'PUT', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
