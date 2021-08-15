@@ -16,11 +16,15 @@ export default function FormDialog({ isOpen, onClose, onSignIn }) {
 	const [form, setForm] = React.useState(initForm);
 
 	const onSubmitForm = () => {
-		if (form.password && form.username) {
-			onSignIn(form);
-		} else {
-			showErrorToast('Invalid form.');
+		if (!form.username) {
+			showErrorToast('Please enter username.');
+			return;
 		}
+		if (!form.password) {
+			showErrorToast('Please enter password.');
+			return;
+		}
+		onSignIn(form);
 	};
 
 	const onKeyPress = (event) => {

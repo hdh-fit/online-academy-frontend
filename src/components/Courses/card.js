@@ -69,13 +69,13 @@ export default function CourseCard({ course, isFromSeach }) {
   const courseData = course ? course : initCourse;
 
 
-  const cardStyle = {
-    minWidth: 260,
-    flex: 1,
-    marginRight: 5,
-    marginTop: 5,
-    maxWidth: isFromSeach ? 260 : 260,
-  };
+  //const cardStyle = {
+  //  minWidth: 260,
+  //  flex: 1,
+  //  marginRight: 5,
+  //  marginTop: 5,
+  //  maxWidth: isFromSeach ? 260 : 260,
+  //};
 
 
 

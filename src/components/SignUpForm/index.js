@@ -21,6 +21,8 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 
 	const [form, setForm] = React.useState(initForm);
 
+	const isValidForm = form.fullname && form.username && form.password && form.phone && form.gender && form.dob && form.email;
+
 	const onSubmitForm = () => {
 		onSignUp(form);
 	};
@@ -113,7 +115,7 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 					<Button onClick={onClose} color="primary">
 						Cancel
 					</Button>
-					<Button onClick={onSubmitForm} color="primary">
+					<Button disabled={!isValidForm} onClick={onSubmitForm} color="primary">
 						Confirm
 					</Button>
 				</DialogActions>
