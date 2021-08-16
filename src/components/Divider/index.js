@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NestedList({ categories, onCloseMenu }) {
+export default function NestedList({ categories, onCloseMenu, isFromSelect, onChange }) {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = React.useState(undefined);
@@ -39,6 +39,11 @@ export default function NestedList({ categories, onCloseMenu }) {
   };
 
   const onCategoryClick = (category) => {
+    if (isFromSelect) {
+      onChange({ name: category.name, label: category.label });
+      onCloseMenu();
+      return;
+    }
     history.push(`/search?category=${category.name}&label=${category.label}`);
     onCloseMenu();
   };

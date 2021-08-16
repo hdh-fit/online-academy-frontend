@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 import { getBestCourses, getTopNew, getTopView } from '../../api';
 import CourseCard from '../../components/Courses/card';
@@ -42,6 +42,21 @@ const Home = (props) => {
         }
       });
   };
+  const [nameVideo, setnameVideo] = useState("");
+  const [idCourse, setidCourse] = useState("");
+  const [video, setvideo] = useState(undefined);
+  const ref = useRef(null);
+
+  const onupload = () => {
+    let form = new FormData();
+    form.append('nameVideo', nameVideo);
+    form.append('idCourse', idCourse);
+    form.append('video', video);
+
+    //upLoadVideo({ nameVideo, idCourse, video })
+    //  .then(res => console.log(res))
+    //  .catch(err => console.log(err));
+  };
 
   return (
     <div style={{
@@ -49,6 +64,32 @@ const Home = (props) => {
       paddingBottom: 24,
     }}>
       <Menu />
+      <div>
+        <form>
+          <input
+            type="text"
+            value={nameVideo}
+            onChange={(e) => setnameVideo(e.target.value)}
+          />
+          <input
+            type="text"
+            value={idCourse}
+
+            onChange={(e) => setidCourse(e.target.value)}
+          />
+
+          <input
+            type="file"
+            ref={ref}
+            onChange={(e) => {
+              setvideo(e.target.files[0]);
+            }}
+          />
+        </form>
+        <button style={{ width: 200, height: 25 }} onClick={onupload}>
+
+        </button>
+      </div>
       <h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{'Khoá học được xem nhiều nhất'}</h3>
       <Carousel
         navButtonsProps={{

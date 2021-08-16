@@ -8,15 +8,16 @@ import Typography from '@material-ui/core/Typography';
 //import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import Favorite from '@material-ui/icons/Favorite';
-import { Security } from '@material-ui/icons';
+import { Security, CloudUploadRounded } from '@material-ui/icons';
 const useStyles = makeStyles({
   root: {
     width: 230,
   },
 });
 
-export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPressChangePass }) {
+export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPressChangePass, user }) {
   const classes = useStyles();
+  const isTeacher = user?.type === 2;
 
   return (
     <Paper className={classes.root}>
@@ -29,9 +30,9 @@ export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPr
         </MenuItem>
         <MenuItem onClick={onPressWatchlist}>
           <ListItemIcon>
-            <Favorite fontSize="small" />
+            {isTeacher ? <CloudUploadRounded fontSize="small" /> : <Favorite fontSize="small" />}
           </ListItemIcon>
-          <Typography variant="inherit">Watch List</Typography>
+          <Typography variant="inherit">{!isTeacher ? 'Watch List' : 'Add course'}</Typography>
         </MenuItem>
         <MenuItem onClick={onPressChangePass}>
           <ListItemIcon>

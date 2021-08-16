@@ -1,5 +1,6 @@
 import { store } from "../core/store";
 const baseUrl = 'https://fit-study.herokuapp.com';
+//const videoHost = 'https://hostVideo.longhofit.repl.co';
 
 const request = (url, body, method, hasToken) => {
 	return new Promise((resolve, reject) => {
@@ -29,6 +30,28 @@ const request = (url, body, method, hasToken) => {
 			});
 	});
 };
+
+//const requestFile = (url, body, method, hasToken) => {
+//	console.log('boydy', body);
+//	return new Promise((resolve, reject) => {
+//		const requestOptions = {
+//			method,
+//			body,
+//		};
+
+//		fetch(url, requestOptions)
+//			.then(response => {
+//				response.json().then(data => {
+//					console.log(data);
+//					resolve(data);
+//				});
+//			})
+//			.catch(err => {
+//				console.log(err);
+//				reject(err);
+//			});
+//	});
+//};
 
 export async function signUp(user) {
 	try {
@@ -182,3 +205,21 @@ export async function changePassword(body) {
 		return error;
 	}
 }
+
+export async function addCourse(body) {
+	try {
+		const data = await request(`${baseUrl}/api/addCourse`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+export async function getMyUploadCourse() {
+	try {
+		const data = await request(`${baseUrl}/api/myUpLoadCourse`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+//req.body{ name, short_described, full_described, image_link, price, category; }

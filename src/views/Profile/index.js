@@ -35,11 +35,19 @@ const Profile = () => {
 	}, []);
 
 	const onPressMyCourse = () => {
+		if (user.type === 2) {
+			history.push("/search?type=My Upload");
+			return;
+		}
 		history.push("/search?type=My Course");
 	};
 
 	const onPressWatchlist = () => {
-		history.push("/search?type=Watch List");
+		if (user.type === 2) {
+			history.push("/add-course");
+		} else {
+			history.push("/search?type=Watch List");
+		}
 	};
 
 	const onSubmitUpdate = () => {
@@ -89,6 +97,7 @@ const Profile = () => {
 					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12 }} variant="outlined">
 						<Avatar alt="Remy Sharp" src={image} style={{ height: 150, width: 150, }} />
 						<TypographyMenu
+							user={user}
 							onPressWatchlist={onPressWatchlist}
 							onPressMyCourse={onPressMyCourse}
 							onPressChangePass={() => setIsShowChangePass(true)}

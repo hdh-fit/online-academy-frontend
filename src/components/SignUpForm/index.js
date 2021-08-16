@@ -13,7 +13,7 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 		"username": undefined,
 		"password": undefined,
 		"phone": undefined,
-		"type": 1,
+		"type": 2,
 		"gender": "male",
 		"dob": undefined,
 		"email": undefined

@@ -1,7 +1,7 @@
 import { Grid, InputLabel, Select, MenuItem } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseByCategoryName, getJoinedCourse, getWatchList, searchCourse } from '../../api';
+import { getCourseByCategoryName, getJoinedCourse, getWatchList, getMyUploadCourse, searchCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 import BasicPagination from '../../components/Paging';
@@ -58,6 +58,15 @@ const Search = (props) => {
 
 		if (type === 'Watch List') {
 			getWatchList().then(res => {
+				if (res.success) {
+					setCourses(res.data);
+				} else {
+				}
+			});
+		}
+
+		if (type === 'My Upload') {
+			getMyUploadCourse().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {
