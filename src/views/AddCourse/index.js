@@ -7,6 +7,8 @@ import Menu from '../../components/Menu';
 import { Button, TextField } from "@material-ui/core";
 import CategorySelect from "../../components/CategorySelect";
 import { addCourse, getCaterogies } from "../../api";
+import { showErrorToast, showSuccessToast } from "../../core/utils";
+import { useHistory } from "react-router-dom";
 export default function MyInput() {
 	const [editorState, setEditorState] = useState(() =>
 		EditorState.createEmpty()
@@ -23,6 +25,8 @@ export default function MyInput() {
 	useEffect(() => {
 		setCourseForm({ ...courseForm, full_described: draftToHtml(convertToRaw(editorState.getCurrentContent())) });
 	}, [editorState]);// eslint-disable-line react-hooks/exhaustive-deps
+
+	const history = useHistory();
 
 	const initForm = {
 		name: undefined,
@@ -43,14 +47,15 @@ export default function MyInput() {
 
 		addCourse(body)
 			.then(res => {
-				if (res.success) {
-					//	setCategories(res.categories);
+				if (res.success === "true") {
+					showSuccessToast('Add course successfullly');
+					history.push(`/course/${res.course._id}`);
 				}
 			})
 			.catch(err => {
 				console.log(err);
+				showErrorToast(`${err}`);
 			});
-		console.log(courseForm);
 	};
 
 	const isValid = courseForm.name && courseForm.short_described && courseForm.full_described && courseForm.price && courseForm.image_link;

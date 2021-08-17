@@ -11,6 +11,7 @@ import { addToWatchlist, getCourseDetail, getJoinedCourse, getWatchList, joinCou
 import ReviewDialog from '../../components/ReviewDialog';
 import { showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
+import DOMPurify from "dompurify";
 
 const CourseDetail = () => {
 	let { id } = useParams();
@@ -190,9 +191,10 @@ const CourseDetail = () => {
 						<h3 style={{ padding: 15, paddingBottom: 5 }}>
 							{`What you'll learn`}
 						</h3>
-						<p style={{ paddingLeft: 17 }}>
-							{course.full_described}
-						</p>
+						<div
+							style={{ paddingLeft: 17, paddingBottom: 19 }}
+							dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.full_described) }}
+						/>
 					</Paper>
 					<h3 style={{ paddingTop: 20 }}>
 						{'Course content'}
