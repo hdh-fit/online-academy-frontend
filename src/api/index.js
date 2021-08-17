@@ -90,6 +90,16 @@ export async function getTopView() {
 	}
 }
 
+
+export async function getAllCourse() {
+	try {
+		const data = await request(`${baseUrl}/api/course/all`, null, 'GET');
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
 export async function getBestCourses() {
 	try {
 		const data = await request(`${baseUrl}/api/getBestCourses`, null, 'GET');
@@ -134,9 +144,9 @@ export async function getCourseByCategoryName(name, page) {
 	}
 }
 
-export async function searchCourse(name) {
+export async function searchCourse(text,page) {
 	try {
-		const data = await request(`${baseUrl}/api/search/${name}`, null, 'GET');
+		const data = await request(`${baseUrl}/api/search/${text}/${page}/5`, null, 'GET');
 		return data;
 	} catch (error) {
 		return error;
@@ -214,6 +224,7 @@ export async function addCourse(body) {
 		return error;
 	}
 }
+
 export async function getMyUploadCourse() {
 	try {
 		const data = await request(`${baseUrl}/api/myUpLoadCourse`, null, 'GET', true);
@@ -222,4 +233,41 @@ export async function getMyUploadCourse() {
 		return error;
 	}
 }
-//req.body{ name, short_described, full_described, image_link, price, category; }
+
+export async function getUsers() {
+	try {
+		const data = await request(`${baseUrl}/api/user/all`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function disableUser(body) {
+	try {
+		const data = await request(`${baseUrl}/api/disableuser`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function enableUser(body) {
+	try {
+		const data = await request(`${baseUrl}/api/enableuser`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function banCourse(idCourse) {
+	try {
+		const data = await request(`${baseUrl}/api/banCourse/${idCourse}`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+

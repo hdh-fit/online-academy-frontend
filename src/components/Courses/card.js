@@ -6,12 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { Star, StarOutlineOutlined, NewReleases, Favorite } from '@material-ui/icons';
+import { Star, StarOutlineOutlined, NewReleases, Favorite, Lock } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 import moment from 'moment';
+import jwt_decode from "jwt-decode";
+import { useSelector } from 'react-redux';
 
 const initCourse = {
   "_id": "",
@@ -65,13 +67,19 @@ const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: siz
 
 
 
-export default function CourseCard({ course, isFromSeach }) {
+export default function CourseCard({ course, isFromSeach, onBanCourse }) {
   const classes = useStyles();
   const history = useHistory();
   const courseData = course ? course : initCourse;
   const a = moment(new Date(courseData.dateCourse));
   const today = moment(new Date());
+  const appState = useSelector(state => state.app);
+  const decode = appState?.accessToken ? jwt_decode(appState.accessToken) : undefined;
+  const isAdmin = decode?.type === 3;
 
+  const onBanCoursePress = () => {
+    onBanCourse(courseData._id);
+  };
 
   return (
     <Card variant="outlined" className={classes.root}>
@@ -98,11 +106,6 @@ export default function CourseCard({ course, isFromSeach }) {
             alignItems={'center'}
             direction="row">
             {[1, 2, 3, 4, 5].map(starPoint => (courseData?.rating?.toFixed(0) >= starPoint ? FillStar() : OutlinedStart()))}
-            {/*<Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <Star style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />
-            <StarOutlineOutlined style={{ fontSize: 15, fill: "rgb(219,154,60)" }} />*/}
             {courseData.review && (
               <span style={{ paddingLeft: 10, color: 'gray', fontSize: 13 }}>
                 {`(${courseData.review?.length} lượt đánh giá)`}
@@ -115,8 +118,8 @@ export default function CourseCard({ course, isFromSeach }) {
         </CardContent>
       </CardActionArea>
       <CardActions style={{ padding: 0, margin: 0 }} disableSpacing>
-        <IconButton onClick={null} aria-label="share">
-          <Favorite color={'error'} />
+        <IconButton onClick={isAdmin ? onBanCoursePress : null} aria-label="share">
+          {isAdmin ? <Lock /> : <Favorite color={'error'} />}
         </IconButton>
         {today.diff(a, 'days') <= 1 && <IconButton onClick={null} aria-label="share">
           <NewReleases color={'error'} />

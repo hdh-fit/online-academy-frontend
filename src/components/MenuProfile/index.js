@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPressChangePass, user }) {
   const classes = useStyles();
   const isTeacher = user?.type === 2;
+  const isAdmin = user?.type === 3;
 
   return (
     <Paper className={classes.root}>
@@ -26,7 +27,7 @@ export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPr
           <ListItemIcon>
             <SendIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="inherit">My Courses</Typography>
+          <Typography variant="inherit">{isAdmin ? 'Course Manage' : 'My Courses'}</Typography>
         </MenuItem>
         <MenuItem onClick={onPressWatchlist}>
           <ListItemIcon>

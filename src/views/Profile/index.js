@@ -3,10 +3,12 @@ import Menu from '../../components/Menu';
 import { Avatar, Container, Paper, TextField, Select, MenuItem, Button } from '@material-ui/core';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
 import TypographyMenu from '../../components/MenuProfile';
-import { changePassword, getUserInfo, updateProfile } from '../../api';
+import DataTable from '../../components/DataTable';
+import DataTableTeacher from '../../components/DataTableTeacher';
+import { changePassword, disableUser, enableUser, getUserInfo, getUsers, updateProfile } from '../../api';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-import { showSuccessToast, showErrorToast } from '../../core/utils';
+import { showSuccessToast, showErrorToast, formatDate } from '../../core/utils';
 import ChangePasswordDialog from '../../components/ChangePasswordDialog';
 
 const Profile = () => {
@@ -21,8 +23,11 @@ const Profile = () => {
 	};
 
 	const [user, setUser] = useState(initUserState);
+	const [teachers, setTeachers] = useState([]);
+	const [students, setStudents] = useState([]);
 	const [isShowChangePass, setIsShowChangePass] = useState(false);
 	const history = useHistory();
+	const isAdmin = user.type === 3;
 
 	useEffect(() => {
 		getUserInfo()
@@ -32,11 +37,16 @@ const Profile = () => {
 				}
 			})
 			.catch(err => console.log(err));
+		refreshUsers();
 	}, []);
 
 	const onPressMyCourse = () => {
 		if (user.type === 2) {
 			history.push("/search?type=My Upload");
+			return;
+		}
+		if (isAdmin) {
+			history.push("/search?type=All Course");
 			return;
 		}
 		history.push("/search?type=My Course");
@@ -87,6 +97,58 @@ const Profile = () => {
 			});
 	};
 
+	const refreshUsers = () => {
+		getUsers()
+			.then(response => {
+				if (response.success) {
+					let teacterList = response.data.filter(user => user.type === 2);
+					teacterList.forEach(item => {
+						item['id'] = item['_id'];
+						item.dob = formatDate(item.dob);
+						item.status = item.disable ? 'Inactive' : 'Active';
+					});
+					setTeachers(teacterList);
+
+					let studentList = response.data.filter(user => user.type === 1);
+					studentList.forEach(item => {
+						item['id'] = item['_id'];
+						item.dob = formatDate(item.dob);
+						item.status = item.disable ? 'Inactive' : 'Active';
+					});
+					setStudents(studentList);
+				}
+			})
+			.catch(err => console.log(err));
+	};
+
+	const onBlockUser = (user) => {
+		disableUser({ id: user._id })
+			.then(response => {
+				if (response.success) {
+					showSuccessToast('Blocked!');
+					refreshUsers();
+				}
+			})
+			.catch(err => {
+				showErrorToast(`${err}`);
+				console.log(err);
+			});
+	};
+
+	const onEnableUser = (user) => {
+		enableUser({ id: user._id })
+			.then(response => {
+				if (response.success) {
+					showSuccessToast('Enable user successfully.');
+					refreshUsers();
+				}
+			})
+			.catch(err => {
+				showErrorToast(`${err}`);
+				console.log(err);
+			});
+	};
+
 	return (
 		<div style={{
 			flex: 1,
@@ -107,11 +169,13 @@ const Profile = () => {
 				<div style={{ flex: 6, marginLeft: 12 }}>
 					<Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12, paddingInline: 50, paddingBottom: 20 }} variant="outlined">
 						<h3>
-							Public profile
+							{user.type === 3 ? 'Administrator' : 'Public profile'}
 						</h3>
-						<span>
-							Add information about yourself
-						</span>
+						{user.type === 3 ? null : (
+							<span>
+								Add information about yourself
+							</span>
+						)}
 						<TextField
 							style={{ marginTop: 30 }}
 							id="email"
@@ -162,23 +226,6 @@ const Profile = () => {
 							<MenuItem value={'male'}>Male</MenuItem>
 							<MenuItem value={'female'}>Female</MenuItem>
 						</Select>
-						{/*<TextField
-							style={{ marginTop: 20 }}
-							id="password"
-							label="Password"
-							fullWidth
-							variant="filled"
-							type={'password'}
-							value={user.fullname}
-						/>
-						<TextField
-							style={{ marginTop: 20 }}
-							id="password"
-							label="Confirm Password"
-							fullWidth
-							variant="filled"
-							type={'password'}
-						/>*/}
 						<Button
 							onClick={onSubmitUpdate}
 							variant={'contained'}
@@ -193,6 +240,20 @@ const Profile = () => {
 							{'SAVE PROFILE'}
 						</Button>
 					</Paper>
+					{isAdmin && (
+						<React.Fragment>
+							<DataTable
+								enableUser={onEnableUser}
+								onBlockUser={onBlockUser}
+								rows={students}
+							/>
+							<DataTableTeacher
+								enableUser={onEnableUser}
+								onBlockUser={onBlockUser}
+								rows={teachers}
+							/>
+						</React.Fragment>
+					)}
 				</div>
 			</Container>
 			<ChangePasswordDialog

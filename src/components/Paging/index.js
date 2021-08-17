@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function BasicPagination({ page, onChange }) {
+export default function BasicPagination({ page, onChange,pageMax }) {
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
 			<Pagination
 				variant="outlined" shape="rounded"
 				onChange={(event, page) => onChange(page)}
-				count={10}
+				count={pageMax}
 				color="primary" />
 		</div>
 	);

@@ -1,11 +1,12 @@
 import { Grid, InputLabel, Select, MenuItem } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseByCategoryName, getJoinedCourse, getWatchList, getMyUploadCourse, searchCourse } from '../../api';
+import { getCourseByCategoryName, getJoinedCourse, getWatchList, getMyUploadCourse, searchCourse, getAllCourse, banCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 import BasicPagination from '../../components/Paging';
 import _ from 'lodash';
+import { chunk, showSuccessToast } from '../../core/utils';
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
@@ -27,22 +28,30 @@ const Search = (props) => {
 	const categoryLabel = query.get("label");
 	const type = query.get("type");
 	const [page, setPage] = useState(1);
+	const [pageMax, setPageMax] = useState(3);
 	const [sortField, setSortField] = useState(undefined);
 
 
 	useEffect(() => {
+		refreshData();
+	}, [categoryName, searchKeyword, type, page]);// eslint-disable-line react-hooks/exhaustive-deps
+
+	const refreshData = () => {
 		if (!!categoryName) {
 			getCourseByCategoryName(categoryName, page).then(res => {
 				if (res.success) {
-					setCourses(res.data);
+					setCourses(res.data.course);
+					setPageMax(res.data.pageMax);
 				}
 			});
 		}
 		if (!!searchKeyword) {
-			searchCourse(searchKeyword)
+			searchCourse(searchKeyword, page)
 				.then(res => {
 					if (res.success) {
-						setCourses(res.data);
+						setCourses(res.data.course);
+						setPageMax(res.data.pageMax);
+
 					} else {
 					}
 				});
@@ -73,7 +82,27 @@ const Search = (props) => {
 				}
 			});
 		}
-	}, [categoryName, searchKeyword, type, page]);
+
+		if (type === 'All Course') {
+			getAllCourse().then(res => {
+				if (res.success) {
+					setCourses(res.data);
+				} else {
+				}
+			});
+		}
+	};
+
+	const onBanCourse = (id) => {
+		banCourse(id)
+			.then(res => {
+				showSuccessToast('Lock course succesfully.');
+				refreshData();
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
 
 
 
@@ -100,16 +129,30 @@ const Search = (props) => {
 					</Select>
 				</div>
 			</div>
-			<Grid
-				style={{ paddingInline: 40 }}
-				container
-			>
-				{courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
-				{orderBy([...courses], sortField).map(course => <CourseCard course={course} key={course._id} isFromSeach />)}
-			</Grid>
-			<div style={{ display: 'flex', justifyContent: 'center' }}>
-				<BasicPagination onChange={setPage} />
-			</div>
+			{type === 'All Course'
+				? chunk([...courses], 5).map(arr => (
+					(<React.Fragment>
+						<Grid
+							style={{ paddingInline: 40, marginTop: 20 }}
+							container
+						>
+							{arr.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
+							{[...arr].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
+						</Grid>
+					</React.Fragment>)
+				))
+				: (<React.Fragment>
+					<Grid
+						style={{ paddingInline: 40 }}
+						container
+					>
+						{courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
+						{orderBy([...courses], sortField).map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
+					</Grid>
+					<div style={{ display: 'flex', justifyContent: 'center' }}>
+						<BasicPagination pageMax={pageMax} onChange={setPage} />
+					</div>
+				</React.Fragment>)}
 		</div>
 	);
 };
