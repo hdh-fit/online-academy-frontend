@@ -1,2 +1,3 @@
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const SAVE_CATEGORIES = 'SAVE_CATEGORIES';

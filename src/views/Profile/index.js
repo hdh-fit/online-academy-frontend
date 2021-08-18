@@ -55,6 +55,8 @@ const Profile = () => {
 	const onPressWatchlist = () => {
 		if (user.type === 2) {
 			history.push("/add-course");
+		} else if (user.type === 3) {
+			history.push("/category-manager");
 		} else {
 			history.push("/search?type=Watch List");
 		}

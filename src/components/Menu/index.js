@@ -94,7 +94,6 @@ export default function PrimarySearchAppBar() {
   const [isOpenSignUp, setIsSignUp] = React.useState(false);
   const dispatch = useDispatch();
   const appState = useSelector(state => state.app);
-  const [categories, setCategories] = React.useState([]);
   const [searchKeyword, setSearchKeyword] = React.useState(false);
 
   const onSeachKeyChange = (text) => {
@@ -108,11 +107,7 @@ export default function PrimarySearchAppBar() {
   };
 
   React.useEffect(() => {
-    getCaterogies().then(res => {
-      if (res.success) {
-        setCategories(res.categories);
-      }
-    });
+    getCaterogies();
   }, []);
 
   const onClickLogin = () => {
@@ -272,7 +267,7 @@ export default function PrimarySearchAppBar() {
           <Button onClick={() => history.push("/")} className={classes.title}>
             Fitstudy
           </Button>
-          <Popover categories={categories} />
+          <Popover categories={appState.categories} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

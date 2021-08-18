@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 //import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import Favorite from '@material-ui/icons/Favorite';
-import { Security, CloudUploadRounded } from '@material-ui/icons';
+import { Security, CloudUploadRounded, Folder } from '@material-ui/icons';
 const useStyles = makeStyles({
   root: {
     width: 230,
@@ -31,9 +31,9 @@ export default function TypographyMenu({ onPressMyCourse, onPressWatchlist, onPr
         </MenuItem>
         <MenuItem onClick={onPressWatchlist}>
           <ListItemIcon>
-            {isTeacher ? <CloudUploadRounded fontSize="small" /> : <Favorite fontSize="small" />}
+            {isAdmin ? <Folder fontSize="small" /> : isTeacher ? <CloudUploadRounded fontSize="small" /> : <Favorite fontSize="small" />}
           </ListItemIcon>
-          <Typography variant="inherit">{!isTeacher ? 'Watch List' : 'Add course'}</Typography>
+          <Typography variant="inherit">{isAdmin ? 'Category Manage' : !isTeacher ? 'Watch List' : 'Add course'}</Typography>
         </MenuItem>
         <MenuItem onClick={onPressChangePass}>
           <ListItemIcon>

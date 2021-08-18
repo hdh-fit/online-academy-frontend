@@ -1,6 +1,7 @@
 import {
   LOGIN_SUCCESS,
   LOG_OUT_SUCCESS,
+  SAVE_CATEGORIES,
 } from './types';
 
 export const onLoginSuccess = (payload) => ({
@@ -10,4 +11,8 @@ export const onLoginSuccess = (payload) => ({
 
 export const onLogOutSuccess = () => ({
   type: LOG_OUT_SUCCESS,
+});
+export const onSaveCategories = (payload) => ({
+  type: SAVE_CATEGORIES,
+  payload
 });

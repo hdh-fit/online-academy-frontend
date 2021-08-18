@@ -1,4 +1,5 @@
 import { store } from "../core/store";
+import { onSaveCategories } from "../core/store/reducer/app/actions";
 const baseUrl = 'https://fit-study.herokuapp.com';
 //const videoHost = 'https://hostVideo.longhofit.repl.co';
 
@@ -129,6 +130,9 @@ export async function getCourseDetail(id) {
 export async function getCaterogies() {
 	try {
 		const data = await request(`${baseUrl}/api/getCategoryAll`, null, 'GET');
+		if (data.success) {
+			store.dispatch(onSaveCategories(data.categories));
+		}
 		return data;
 	} catch (error) {
 		return error;
@@ -144,7 +148,7 @@ export async function getCourseByCategoryName(name, page) {
 	}
 }
 
-export async function searchCourse(text,page) {
+export async function searchCourse(text, page) {
 	try {
 		const data = await request(`${baseUrl}/api/search/${text}/${page}/5`, null, 'GET');
 		return data;
@@ -270,4 +274,30 @@ export async function banCourse(idCourse) {
 	}
 }
 
+export async function addCategory(body) {
+	try {
+		const data = await request(`${baseUrl}/api/addCategory`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function deleteCategory(name) {
+	try {
+		const data = await request(`${baseUrl}/api/categoryByName`, { name }, 'DELETE', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function editCategory(body) {
+	try {
+		const data = await request(`${baseUrl}/api/category`, body, 'PUT', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
 

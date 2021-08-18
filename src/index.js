@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from './views/Search';
 import MyInput from './views/AddCourse';
+import CategoryManager from './views/CategoryManage';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -26,6 +27,7 @@ ReactDOM.render(
           <Route path="/search" component={Search} />
           <Route path="/myprofile" component={Profile} />
           <Route path="/add-course" component={MyInput} />
+          <Route path="/category-manager" component={CategoryManager} />
           <Route path="/" component={Home} />
         </Switch>
       </PersistGate>

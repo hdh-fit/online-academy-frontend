@@ -35,6 +35,26 @@ export const showConfirmAlert = (text, onConfirm) => {
 	});
 };
 
+export const showCategoryAction = (onEdit, onDelete) => {
+	Swal.fire({
+		title: 'Category Action',
+		text: "You won't be able to revert this!",
+		icon: 'warning',
+		showDenyButton: true,
+		confirmButtonColor: '#3085d6',
+		denyButtonColor: '#d33',
+		confirmButtonText: 'Edit Category',
+		denyButtonText: 'Delete Category'
+	}).then((result) => {
+		if (result.isConfirmed) {
+			onEdit();
+		}
+		if (result.isDenied) {
+			onDelete();
+		}
+	});
+};
+
 export const showSuccessToast = (msg) => {
 	toast.success(msg, {
 		position: toast.POSITION.TOP_CENTER

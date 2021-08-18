@@ -24,13 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NestedList({ categories, onCloseMenu, isFromSelect, onChange }) {
+export default function NestedList({ categories, onCloseMenu, isFromSelect, onChange, onSelectCate,isAddCate }) {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = React.useState(undefined);
 
 
-  const handleClick = (index) => {
+  const handleClick = (index, item) => {
+    if (isAddCate) {
+      onSelectCate(item);
+      onCloseMenu();
+      return;
+    }
     if (index === open) {
       setOpen(undefined);
     } else {
@@ -57,7 +62,7 @@ export default function NestedList({ categories, onCloseMenu, isFromSelect, onCh
       {categoryList.map((item, index) => {
         return (
           <React.Fragment>
-            <ListItem onClick={() => handleClick(index)} button>
+            <ListItem onClick={() => handleClick(index, item)} button>
               <ListItemIcon>
                 <FolderOpenOutlined />
               </ListItemIcon>
