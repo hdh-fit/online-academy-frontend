@@ -1,7 +1,7 @@
 import { store } from "../core/store";
 import { onSaveCategories } from "../core/store/reducer/app/actions";
 const baseUrl = 'https://fit-study.herokuapp.com';
-//const videoHost = 'https://hostVideo.longhofit.repl.co';
+const videoHost = 'https://hostVideo.longhofit.repl.co';
 
 const request = (url, body, method, hasToken) => {
 	return new Promise((resolve, reject) => {
@@ -32,27 +32,36 @@ const request = (url, body, method, hasToken) => {
 	});
 };
 
-//const requestFile = (url, body, method, hasToken) => {
-//	console.log('boydy', body);
-//	return new Promise((resolve, reject) => {
-//		const requestOptions = {
-//			method,
-//			body,
-//		};
+const requestFile = (body) => {
+	console.log('body', body);
+	return new Promise((resolve, reject) => {
+		const requestOptions = {
+			method:'POST',
+			body,
+		};
 
-//		fetch(url, requestOptions)
-//			.then(response => {
-//				response.json().then(data => {
-//					console.log(data);
-//					resolve(data);
-//				});
-//			})
-//			.catch(err => {
-//				console.log(err);
-//				reject(err);
-//			});
-//	});
-//};
+		fetch(videoHost, requestOptions)
+			.then(response => {
+				response.json().then(data => {
+					console.log(data);
+					resolve(data);
+				});
+			})
+			.catch(err => {
+				console.log(err);
+				reject(err);
+			});
+	});
+};
+
+export async function upLoadVideo(body) {
+	try {
+		const data = await requestFile(body);
+		return data;
+	} catch (error) {
+		return error.response.status;
+	}
+}
 
 export async function signUp(user) {
 	try {
@@ -301,3 +310,11 @@ export async function editCategory(body) {
 	}
 }
 
+export async function viewTeacherCourse(idTeacher) {
+	try {
+		const data = await request(`${baseUrl}/api/teacherCourse/${idTeacher}`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}

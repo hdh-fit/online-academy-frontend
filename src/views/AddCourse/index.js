@@ -9,7 +9,7 @@ import CategorySelect from "../../components/CategorySelect";
 import { addCourse, getCaterogies } from "../../api";
 import { showErrorToast, showSuccessToast } from "../../core/utils";
 import { useHistory } from "react-router-dom";
-export default function MyInput() {
+export default function AddCourse() {
 	const [editorState, setEditorState] = useState(() =>
 		EditorState.createEmpty()
 	);
@@ -43,13 +43,11 @@ export default function MyInput() {
 		const body = { ...courseForm };
 		body.category = courseForm.category.name;
 
-		console.log(body);
-
 		addCourse(body)
 			.then(res => {
 				if (res.success === "true") {
-					showSuccessToast('Add course successfullly');
-					history.push(`/course/${res.course._id}`);
+					showSuccessToast('Add course successfully');
+					history.push(`/add-video/${res.course._id}`);
 				}
 			})
 			.catch(err => {
@@ -93,17 +91,12 @@ export default function MyInput() {
 						value={courseForm.category.label}
 						categories={categories} />
 				</div>
-				<div style={{ border: "1px solid black", padding: '2px', minHeight: '400px', marginTop: 20 }}>
+				<div style={{ border: "1px solid gray", padding: '2px', minHeight: '400px', marginTop: 20 }}>
 					<Editor
 						editorState={editorState}
 						onEditorStateChange={setEditorState}
 					/>
 				</div>
-				<textarea
-					style={{ width: '100%', height: 100 }}
-					disabled
-					value={courseForm.full_described}
-				/>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<Button
 						disabled={!isValid}

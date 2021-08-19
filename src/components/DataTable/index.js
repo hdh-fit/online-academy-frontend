@@ -63,11 +63,19 @@ export default function DataTable({ rows, onBlockUser, enableUser }) {
           if (!isInactive) {
             showConfirmAlert('Do you want to block this user?', () => {
               onBlockUser(e.row);
-            });
+            },
+              null,
+              null,
+              'Confirm'
+            );
           } else {
             showConfirmAlert('Do you want to enable this user?', () => {
               enableUser(e.row);
-            });
+            },
+              null,
+              null,
+              'Confirm'
+            );
           }
         }}
       />

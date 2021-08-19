@@ -80,32 +80,6 @@ const Home = (props) => {
       paddingBottom: 24,
     }}>
       <Menu />
-      {/*<div>
-        <form>
-          <input
-            type="text"
-            value={nameVideo}
-            onChange={(e) => setnameVideo(e.target.value)}
-          />
-          <input
-            type="text"
-            value={idCourse}
-
-            onChange={(e) => setidCourse(e.target.value)}
-          />
-
-          <input
-            type="file"
-            ref={ref}
-            onChange={(e) => {
-              setvideo(e.target.files[0]);
-            }}
-          />
-        </form>
-        <button style={{ width: 200, height: 25 }} onClick={onupload}>
-
-        </button>
-      </div>*/}
       <h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{'Khoá học được xem nhiều nhất'}</h3>
       <Carousel
         navButtonsProps={{

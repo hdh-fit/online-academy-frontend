@@ -1,7 +1,7 @@
 import { Grid, InputLabel, Select, MenuItem } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseByCategoryName, getJoinedCourse, getWatchList, getMyUploadCourse, searchCourse, getAllCourse, banCourse } from '../../api';
+import { getCourseByCategoryName, getJoinedCourse, getWatchList, getMyUploadCourse, searchCourse, getAllCourse, banCourse, viewTeacherCourse } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 import BasicPagination from '../../components/Paging';
@@ -26,6 +26,8 @@ const Search = (props) => {
 	const categoryName = query.get("category");
 	const searchKeyword = query.get("course");
 	const categoryLabel = query.get("label");
+	const teacherId = query.get("teacher");
+	const teacherName = query.get("teacherName");
 	const type = query.get("type");
 	const [page, setPage] = useState(1);
 	const [pageMax, setPageMax] = useState(3);
@@ -34,9 +36,16 @@ const Search = (props) => {
 
 	useEffect(() => {
 		refreshData();
-	}, [categoryName, searchKeyword, type, page]);// eslint-disable-line react-hooks/exhaustive-deps
+	}, [categoryName, searchKeyword, type, page, teacherId]);// eslint-disable-line react-hooks/exhaustive-deps
 
 	const refreshData = () => {
+		if (!!teacherId) {
+			viewTeacherCourse(teacherId).then(res => {
+				if (res.success) {
+					setCourses(res.data);
+				}
+			});
+		}
 		if (!!categoryName) {
 			getCourseByCategoryName(categoryName, page).then(res => {
 				if (res.success) {
@@ -113,7 +122,7 @@ const Search = (props) => {
 		}}>
 			<Menu />
 			<div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 12, paddingBottom: 12 }}>
-				<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || (searchKeyword && `#${searchKeyword}`) || type}</h3>
+				<h3 style={{ paddingLeft: 40, paddingTop: 20 }}>{categoryLabel || (searchKeyword && `#${searchKeyword}`) || type || (teacherId && `${teacherName}'s Courses`)}</h3>
 				<div style={{ marginRight: 50, paddingTop: 12 }}>
 					<InputLabel style={{ color: 'black', fontSize: 12 }}>
 						{'Sort by'}

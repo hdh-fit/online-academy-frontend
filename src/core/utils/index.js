@@ -2,6 +2,21 @@ import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 
+export const showOptionAlert = (onCancel) => {
+	Swal.fire({
+		title: 'Continue upload lesson?',
+		icon: 'question',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Yes'
+	}).then((result) => {
+		if (result.isDismissed) {
+			onCancel();
+		}
+	});
+};
+
 export const showSuccessAlert = (text) => {
 	Swal.fire({
 		title: text,
@@ -22,17 +37,24 @@ export const showErrorAlert = (text) => {
 	});
 };
 
-export const showConfirmAlert = (text, onConfirm) => {
+export const showConfirmAlert = (text, onConfirm, isTeacher, onViewCourse, denyText) => {
 	Swal.fire({
 		title: text,
 		showCancelButton: true,
-		confirmButtonText: `Confirm`,
-	}).then((result) => {
-		/* Read more about isConfirmed, isDenied below */
-		if (result.isConfirmed) {
-			onConfirm();
-		}
-	});
+		confirmButtonText: `View courses`,
+		showDenyButton: true,
+		denyButtonText: denyText,
+		showConfirmButton: isTeacher
+	})
+		.then((result) => {
+			/* Read more about isConfirmed, isDenied below */
+			if (result.isDenied) {
+				onConfirm();
+			}
+			if (result.isConfirmed) {
+				onViewCourse();
+			}
+		});
 };
 
 export const showCategoryAction = (onEdit, onDelete) => {

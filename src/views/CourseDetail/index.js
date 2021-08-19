@@ -141,7 +141,6 @@ const CourseDetail = () => {
 
 	const renderRatingChart = (type) => {
 		const count = course.review.filter(item => item.rate === type).length;
-		console.log(type, count);
 		const percent = count / course.review.length;
 
 		return (
@@ -312,7 +311,7 @@ const CourseDetail = () => {
 					isInWatchList={isInWatchList}
 					onBuyCourse={onBuyCourse}
 					onAddWatchList={onAddWatchList}
-					videoSrc={course.video[0]?.link} />
+					videoSrc={course.video[2]?.link} />
 			</Container>
 			{<ReviewDialog
 				onSubmit={onSubmitReview}

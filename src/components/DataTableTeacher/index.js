@@ -50,7 +50,7 @@ const columns = [
 //  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 //];
 
-export default function DataTableTeacher({ rows, onBlockUser, enableUser }) {
+export default function DataTableTeacher({ rows, onBlockUser, enableUser, onViewCourse }) {
   return (
     <div style={{ height: 400, width: '100%', marginTop: 70, marginBottom: 70 }}>
       <h3>{'Teachers'}</h3>
@@ -61,13 +61,21 @@ export default function DataTableTeacher({ rows, onBlockUser, enableUser }) {
         onRowDoubleClick={(e) => {
           const isInactive = e.row.disable;
           if (!isInactive) {
-            showConfirmAlert('Do you want to block this user?', () => {
-              onBlockUser(e.row);
-            });
+            showConfirmAlert(
+              'Actions',
+              () => onBlockUser(e.row),
+              true,
+              () => onViewCourse(e.row),
+              'Block user'
+            );
           } else {
-            showConfirmAlert('Do you want to enable this user?', () => {
-              enableUser(e.row);
-            });
+            showConfirmAlert(
+              'Actions',
+              () => enableUser(e.row),
+              true,
+              () => onViewCourse(e.row),
+              'Enable user'
+            );
           }
         }}
       />

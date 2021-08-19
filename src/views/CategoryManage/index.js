@@ -48,6 +48,8 @@ export default function CategoryManager() {
 				if (res.success) {
 					showSuccessToast('Delete category successfully.');
 					getCaterogies();
+				} else {
+					showErrorToast(res.error_message);
 				}
 			})
 			.catch(err => {
@@ -57,14 +59,14 @@ export default function CategoryManager() {
 	};
 
 	const onEditCateSubmit = () => {
-		const { id, label, name } = categorySelect;
+		const { id, label } = categorySelect;
 
-		editCategory({ id, label, name })
+		editCategory({ id, label })
 			.then(res => {
 				if (res.success) {
 					showSuccessToast('Edit category successfully.');
 					getCaterogies();
-					setShowEdit(false)
+					setShowEdit(false);
 				}
 			})
 			.catch(err => {

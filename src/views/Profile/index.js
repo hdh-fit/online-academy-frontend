@@ -151,6 +151,10 @@ const Profile = () => {
 			});
 	};
 
+	const onViewCourse = (teacher) => {
+		history.push(`/search?teacher=${teacher.id}&teacherName=${teacher.fullname}`);
+	};
+
 	return (
 		<div style={{
 			flex: 1,
@@ -250,6 +254,7 @@ const Profile = () => {
 								rows={students}
 							/>
 							<DataTableTeacher
+								onViewCourse={onViewCourse}
 								enableUser={onEnableUser}
 								onBlockUser={onBlockUser}
 								rows={teachers}

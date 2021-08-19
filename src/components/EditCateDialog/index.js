@@ -13,10 +13,6 @@ export default function EditCateDialog({ isOpen, onClose, onDoneEdit, category, 
 			showErrorToast('Please enter Category Label.');
 			return;
 		}
-		if (!category.name) {
-			showErrorToast('Please enter Category Name.');
-			return;
-		}
 		onDoneEdit();
 	};
 
@@ -33,18 +29,9 @@ export default function EditCateDialog({ isOpen, onClose, onDoneEdit, category, 
 				<DialogContent>
 					<TextField
 						variant={'filled'}
-						onChange={({ target }) => onChange({ ...category, name: target.value })}
-						autoFocus
-						label="Name"
-						fullWidth
-						onKeyPress={onKeyPress}
-						value={category?.name}
-					/>
-					<TextField
-						variant={'filled'}
 						onKeyPress={onKeyPress}
 						onChange={({ target }) => onChange({ ...category, label: target.value })}
-						style={{ marginTop: 20 }}
+						style={{ marginTop: 20, width: 300 }}
 						label="Label"
 						fullWidth
 						value={category?.label}
