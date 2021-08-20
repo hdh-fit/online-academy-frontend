@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     flex: 1,
     marginRight: 5,
+    minHeight:'100%'
   },
   media: {
     height: 0,

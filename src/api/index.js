@@ -318,3 +318,12 @@ export async function viewTeacherCourse(idTeacher) {
 		return error;
 	}
 }
+
+export async function getTop5Enroll(idTeacher) {
+	try {
+		const data = await request(`${baseUrl}/api/course/top-5-join`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}

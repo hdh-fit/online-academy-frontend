@@ -28,6 +28,7 @@ const Profile = () => {
 	const [isShowChangePass, setIsShowChangePass] = useState(false);
 	const history = useHistory();
 	const isAdmin = user.type === 3;
+	const isTeacher = user.type === 2;
 
 	useEffect(() => {
 		getUserInfo()
@@ -64,7 +65,10 @@ const Profile = () => {
 
 	const onSubmitUpdate = () => {
 		const { fullname, phone, dob, gender } = user;
-		const body = { fullname, phone, dob, gender };
+		let body = { fullname, phone, dob, gender };
+		if (isTeacher) {
+			body.describe = user.describe;
+		}
 
 		updateProfile(body)
 			.then(response => {
@@ -193,12 +197,22 @@ const Profile = () => {
 						/>
 						<TextField
 							style={{ marginTop: 20 }}
-							label="User Name"
+							label="Full Name"
 							fullWidth
 							variant="filled"
 							value={user.fullname}
 							onChange={e => setUser({ ...user, fullname: e.target.value })}
 						/>
+						{isTeacher && (
+							<TextField
+								style={{ marginTop: 20 }}
+								label="Describe"
+								fullWidth
+								variant="filled"
+								value={user.describe}
+								onChange={e => setUser({ ...user, describe: e.target.value })}
+							/>
+						)}
 						<TextField
 							variant={'filled'}
 							style={{ marginTop: 20 }}

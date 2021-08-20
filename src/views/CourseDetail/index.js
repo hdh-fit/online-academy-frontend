@@ -9,7 +9,7 @@ import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
 import { addToWatchlist, getCourseDetail, getJoinedCourse, getWatchList, joinCourse, submitReview } from '../../api';
 import ReviewDialog from '../../components/ReviewDialog';
-import { showErrorToast, showSuccessToast } from '../../core/utils';
+import { formatDate, showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
 import DOMPurify from "dompurify";
 import VideoView from '../../components/VideoView';
@@ -38,7 +38,13 @@ const CourseDetail = () => {
 				"link": "",
 				"id_course": ""
 			}
-		]
+		],
+		"teacher": {
+			"describe": null,
+			"fullname": "",
+			"listCourse": [],
+			"_id": "",
+		}
 	};
 
 	const [course, setCourse] = useState(initCourse);
@@ -152,7 +158,7 @@ const CourseDetail = () => {
 
 	const renderRatingChart = (type) => {
 		const count = course.review.filter(item => item.rate === type).length;
-		const percent = count / course.review.length;
+		const percent = count / course.review.length || 0;
 
 		return (
 			<div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
@@ -187,11 +193,11 @@ const CourseDetail = () => {
 					<Grid alignItems='center' direction='row'>
 						{[1, 2, 3, 4, 5].map(starPoint => (course.rating.toFixed(0) >= starPoint ? FillStar() : OutlinedStart()))}
 						<span style={{ fontSize: 14 }}>
-							{` (${course.review.length} ratings) 326,026 students`}
+							{` (${course.review.length} ratings) ${course.listStudent?.length || 0} students`}
 						</span>
 					</Grid>
 					<span style={{ fontSize: 14 }}>
-						{`Last updated ${new Date(course.dateCourse)}`}
+						{`Last updated ${formatDate(course.dateCourse)}`}
 					</span>
 				</Container>
 			</div>
@@ -218,34 +224,25 @@ const CourseDetail = () => {
 							{'Instructors'}
 						</h3>
 						<h5 style={{ paddingTop: 10 }}>
-							{'Tim Buchalka'}
+							{course.teacher.fullname}
 						</h5>
 						<span>
-							{'Java Python Android and C# Expert Developer - 987K+ students'}
+							{course.teacher.describe}
 						</span>
 						<div style={{ display: 'flex', alignItems: 'center', paddingTop: 20, paddingBottom: 20 }}>
 							<Avatar style={{ width: 100, height: 100 }} alt="Remy Sharp" src={image} />
 							<ul >
 								<li>
-									4.5 Instructor Rating
+									{`Gender: ${course.teacher.gender}`}
 								</li>
 								<li>
-									260,213 Reviews
+									{`Email: ${course.teacher.email}`}
 								</li>
 								<li>
-									992,391 Students
-								</li>
-								<li>
-									12 Courses
+									{`DoB: ${formatDate(course.teacher.dob)}`}
 								</li>
 							</ul>
 						</div>
-						<p>
-							Tim's been a professional software developer for over 35 years.  During his career, he has worked for major companies such as Fujitsu, Mitsubishi, and Saab.
-						</p>
-						<p>
-							His video courses are used to train developers in major companies such as Mercedes-Benz, Paypal, VW, Pitney Bowes, IBM, and T-Mobile just to name a few (via the Udemy for Business program).
-						</p>
 					</Paper>
 					<Paper style={{ marginTop: 20, padding: 20, marginBottom: 20 }} variant="outlined">
 						<div style={{ display: 'flex', justifyContent: 'space-between' }}>

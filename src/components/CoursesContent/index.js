@@ -41,7 +41,7 @@ export default function CourseContent({ lessons, onOpenVideoPress }) {
 			className={classes.root}
 		>
 			{lessons.length === 0
-				? <h4 style={{ marginLeft: 19 }}>No videos</h4>
+				? <h5 style={{ marginLeft: 19 }}>{'Lesson is not available'}</h5>
 				: lessons.map((item, index) => (
 					<React.Fragment>
 						<ListItem button onClick={() => handleClick(index)}>

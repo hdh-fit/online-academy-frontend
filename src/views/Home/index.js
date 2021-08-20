@@ -98,7 +98,7 @@ const Home = (props) => {
           container
           direction="row"
         >
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard  key={course} />)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
           {[...topView].slice(0, 5).map(course => <CourseCard onBanCourse={onBanCourse} key={course._id} course={course} />)}
         </Grid>
         <Grid
@@ -139,7 +139,7 @@ const Home = (props) => {
       </Carousel>
       <h3 style={{ paddingLeft: 40 }}>{'Khoá học nổi bật'}</h3>
       <Grid
-        style={{ paddingInline: 40 }}
+        style={{ paddingInline: 40,height:390}}
         container
         alignItems="center"
         justifyContent="center"
