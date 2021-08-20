@@ -12,6 +12,7 @@ import ReviewDialog from '../../components/ReviewDialog';
 import { showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
 import DOMPurify from "dompurify";
+import VideoView from '../../components/VideoView';
 
 const CourseDetail = () => {
 	let { id } = useParams();
@@ -45,6 +46,16 @@ const CourseDetail = () => {
 	const appState = useSelector(state => state.app);
 	const [isMyCourse, setIsMyCourse] = useState(false);
 	const [isInWatchList, setIsInWatchList] = useState(false);
+	const [openVideo, setOpenVideo] = useState(false);
+	const [videoSelect, setVideoSelect] = useState(undefined);
+	const [lessonNumber, setLessonNumber] = useState(undefined);
+
+	const onOpenVideoPress = (video, index) => {
+		setVideoSelect(video);
+		setLessonNumber(index);
+		setOpenVideo(true);
+	};
+
 
 
 	useEffect(() => {
@@ -198,7 +209,10 @@ const CourseDetail = () => {
 					<h3 style={{ paddingTop: 20 }}>
 						{'Course content'}
 					</h3>
-					<CourseContent />
+					<CourseContent
+						onOpenVideoPress={onOpenVideoPress}
+						lessons={course.video}
+					/>
 					<Paper style={{ marginTop: 20, padding: 20, marginBottom: 20 }} variant="outlined">
 						<h3 >
 							{'Instructors'}
@@ -318,6 +332,12 @@ const CourseDetail = () => {
 				open={openReview}
 				onClose={() => setOpenReview(false)} />
 			}
+			<VideoView
+				lessonNumber={lessonNumber + 1}
+				video={videoSelect}
+				open={openVideo}
+				onClose={() => setOpenVideo(false)}
+			/>
 		</div>
 	);
 };

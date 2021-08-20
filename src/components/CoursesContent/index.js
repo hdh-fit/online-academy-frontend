@@ -5,12 +5,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
+import VideoCall from '@material-ui/icons/VideoCall';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
+import Folder from '@material-ui/icons/Folder';
 import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,12 +22,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function CourseContent() {
+export default function CourseContent({ lessons, onOpenVideoPress }) {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(true);
+	const [indexOpen, setIndexOpen] = React.useState(undefined);
 
-	const handleClick = () => {
-		setOpen(!open);
+	const handleClick = (index) => {
+		if (indexOpen === index) {
+			setIndexOpen(undefined);
+			return;
+		}
+		setIndexOpen(index);
 	};
 
 	return (
@@ -38,39 +40,31 @@ export default function CourseContent() {
 			aria-labelledby="nested-list-subheader"
 			className={classes.root}
 		>
-			<ListItem button>
-				<ListItemIcon>
-					<SendIcon />
-				</ListItemIcon>
-				<ListItemText primary="Course Introdution" />
-			</ListItem>
-			<Divider style={{ backgroundColor: 'gray' }} />
-			<ListItem button>
-				<ListItemIcon>
-					<DraftsIcon />
-				</ListItemIcon>
-				<ListItemText primary="Install and Setup" />
-			</ListItem>
-			<Divider style={{ backgroundColor: 'gray' }} />
+			{lessons.length === 0
+				? <h4 style={{ marginLeft: 19 }}>No videos</h4>
+				: lessons.map((item, index) => (
+					<React.Fragment>
+						<ListItem button onClick={() => handleClick(index)}>
+							<ListItemIcon>
+								<Folder />
+							</ListItemIcon>
+							<ListItemText primary={item.name} />
+							{indexOpen === index ? <ExpandLess /> : <ExpandMore />}
+						</ListItem>
 
-			<ListItem button onClick={handleClick}>
-				<ListItemIcon>
-					<InboxIcon />
-				</ListItemIcon>
-				<ListItemText primary="Input and Output in Python" />
-				{open ? <ExpandLess /> : <ExpandMore />}
-			</ListItem>
-
-			<Collapse in={open} timeout="auto" unmountOnExit>
-				<List component="div" disablePadding>
-					<ListItem button className={classes.nested}>
-						<ListItemIcon>
-							<StarBorder />
-						</ListItemIcon>
-						<ListItemText primary="Module and Functions in Python" />
-					</ListItem>
-				</List>
-			</Collapse>
+						<Collapse in={indexOpen === index} timeout="auto" unmountOnExit>
+							<List component="div" disablePadding>
+								<ListItem button className={classes.nested}>
+									<ListItemIcon>
+										<VideoCall />
+									</ListItemIcon>
+									<ListItemText onClick={() => onOpenVideoPress(item, index)} primary="Open video" />
+								</ListItem>
+							</List>
+						</Collapse>
+						<Divider />
+					</React.Fragment>
+				))}
 		</List>
 	);
 }
