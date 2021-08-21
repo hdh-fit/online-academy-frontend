@@ -7,13 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Select, MenuItem } from '@material-ui/core';
 
-export default function SignUpForm({ isOpen, onClose, onSignUp }) {
+export default function SignUpForm({ isOpen, onClose, onSignUp, isAddTeacher }) {
 	const initForm = {
 		"fullname": undefined,
 		"username": undefined,
 		"password": undefined,
 		"phone": undefined,
-		"type": 1,
+		"type": isAddTeacher ? 2 : 1,
 		"gender": "male",
 		"dob": undefined,
 		"email": undefined
@@ -30,7 +30,7 @@ export default function SignUpForm({ isOpen, onClose, onSignUp }) {
 	return (
 		<div>
 			<Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
-				<DialogTitle style={{ textAlign: 'center' }} id="form-dialog-title">Sign Up</DialogTitle>
+				<DialogTitle style={{ textAlign: 'center' }} id="form-dialog-title">{!isAddTeacher ? 'Sign Up' : 'Add new teacher'}</DialogTitle>
 				<DialogContent>
 					<TextField
 						onChange={(e) => setForm({ ...form, fullname: e.target.value })}

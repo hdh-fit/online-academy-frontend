@@ -5,11 +5,12 @@ import image from '../../components/Courses/contemplative-reptile.jpeg';
 import TypographyMenu from '../../components/MenuProfile';
 import DataTable from '../../components/DataTable';
 import DataTableTeacher from '../../components/DataTableTeacher';
-import { changePassword, disableUser, enableUser, getUserInfo, getUsers, updateProfile } from '../../api';
+import { changePassword, disableUser, enableUser, getUserInfo, getUsers, signUp, updateProfile } from '../../api';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-import { showSuccessToast, showErrorToast, formatDate } from '../../core/utils';
+import { showSuccessToast, showErrorToast, formatDate, showSuccessAlert } from '../../core/utils';
 import ChangePasswordDialog from '../../components/ChangePasswordDialog';
+import SignUpForm from '../../components/SignUpForm';
 
 const Profile = () => {
 	const initUserState = {
@@ -25,10 +26,26 @@ const Profile = () => {
 	const [user, setUser] = useState(initUserState);
 	const [teachers, setTeachers] = useState([]);
 	const [students, setStudents] = useState([]);
+	const [isOpenSignUp, setIsOpenSignUp] = useState(false);
 	const [isShowChangePass, setIsShowChangePass] = useState(false);
 	const history = useHistory();
 	const isAdmin = user.type === 3;
 	const isTeacher = user.type === 2;
+
+	const onAddTeacher = (data) => {
+		signUp(data)
+			.then(rs => {
+				if (rs.success) {
+					setIsOpenSignUp(false);
+					showSuccessAlert('Add teacher successfully.');
+				} else {
+					showErrorToast("Some thing wrong.");
+				}
+			})
+			.catch(error => {
+				showErrorToast("Some thing wrong.");
+			});
+	};
 
 	useEffect(() => {
 		getUserInfo()
@@ -273,6 +290,19 @@ const Profile = () => {
 								onBlockUser={onBlockUser}
 								rows={teachers}
 							/>
+							<Button
+								onClick={() => setIsOpenSignUp(true)}
+								variant={'contained'}
+								size="medium"
+								style={{
+									backgroundColor: 'rgb(28,29,31)',
+									color: 'white',
+									fontWeight: 'bold',
+									width: 180,
+									marginBottom: 12
+								}}>
+								{'ADD TEACHER'}
+							</Button>
 						</React.Fragment>
 					)}
 				</div>
@@ -281,6 +311,12 @@ const Profile = () => {
 				onClose={() => setIsShowChangePass(false)}
 				isOpen={isShowChangePass}
 				onChangePass={onChangePass}
+			/>
+			<SignUpForm
+				isAddTeacher={true}
+				onSignUp={onAddTeacher}
+				isOpen={isOpenSignUp}
+				onClose={() => setIsOpenSignUp(false)}
 			/>
 		</div>
 	);
