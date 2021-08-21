@@ -221,6 +221,7 @@ const CourseDetail = () => {
 			</div>
 			<Container style={{ display: 'flex', paddingTop: 40 }}>
 				<div style={{ flex: 1 }}>
+
 					<Paper variant="outlined">
 						<h3 style={{ padding: 15, paddingBottom: 5 }}>
 							{`What you'll learn`}
@@ -334,15 +335,17 @@ const CourseDetail = () => {
 							);
 						})}
 					</Paper>
+					<CourseDetailCard
+						idCourse={course._id}
+						isMyUploadCourse={isMyUploadCourse}
+						isMyCourse={isMyCourse}
+						isInWatchList={isInWatchList}
+						onBuyCourse={onBuyCourse}
+						onAddWatchList={onAddWatchList}
+						videoSrc={course.video[2]?.link}
+					/>
 				</div>
-				<CourseDetailCard
-					idCourse={course._id}
-					isMyUploadCourse={isMyUploadCourse}
-					isMyCourse={isMyCourse}
-					isInWatchList={isInWatchList}
-					onBuyCourse={onBuyCourse}
-					onAddWatchList={onAddWatchList}
-					videoSrc={course.video[2]?.link} />
+
 			</Container>
 			{<ReviewDialog
 				onSubmit={onSubmitReview}
