@@ -156,7 +156,7 @@ const Search = (props) => {
 						container
 					>
 						{courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
-						{orderBy([...courses], sortField).map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
+						{orderBy([...courses], sortField).map(course => <CourseCard isFromEnrolled={type === 'My Course'} onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
 					</Grid>
 					<div style={{ display: 'flex', justifyContent: 'center' }}>
 						<BasicPagination pageMax={pageMax} onChange={setPage} />

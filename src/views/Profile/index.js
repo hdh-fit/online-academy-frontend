@@ -38,6 +38,8 @@ const Profile = () => {
 				if (rs.success) {
 					setIsOpenSignUp(false);
 					showSuccessAlert('Add teacher successfully.');
+					refreshUsers();
+
 				} else {
 					showErrorToast("Some thing wrong.");
 				}

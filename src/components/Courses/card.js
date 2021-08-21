@@ -68,7 +68,7 @@ const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: siz
 
 
 
-export default function CourseCard({ course, isFromSeach, onBanCourse }) {
+export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnrolled }) {
   const classes = useStyles();
   const history = useHistory();
   const courseData = course ? course : initCourse;
@@ -77,6 +77,7 @@ export default function CourseCard({ course, isFromSeach, onBanCourse }) {
   const appState = useSelector(state => state.app);
   const decode = appState?.accessToken ? jwt_decode(appState.accessToken) : undefined;
   const isAdmin = decode?.type === 3;
+  const showCourseStatus = isFromEnrolled && decode?.type === 1 && !course.isFinish;
 
   const onBanCoursePress = () => {
     onBanCourse(courseData._id);
@@ -118,7 +119,7 @@ export default function CourseCard({ course, isFromSeach, onBanCourse }) {
           </div>
         </CardContent>
       </CardActionArea>
-      <CardActions style={{ padding: 0, margin: 0}} disableSpacing>
+      <CardActions style={{ padding: 0, margin: 0 }} disableSpacing>
         {today.diff(a, 'days') <= 1 && (
           <React.Fragment>
             <IconButton disabled aria-label="share">
@@ -130,6 +131,11 @@ export default function CourseCard({ course, isFromSeach, onBanCourse }) {
         <IconButton onClick={isAdmin ? onBanCoursePress : null} aria-label="share">
           {isAdmin ? <Lock /> : <Favorite color={'error'} />}
         </IconButton>
+        {showCourseStatus && (
+          <span style={{ color: 'red' }}>
+            {'In progress'}
+          </span>
+        )}
 
       </CardActions>
     </Card>
