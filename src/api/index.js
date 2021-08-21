@@ -36,7 +36,7 @@ const requestFile = (body) => {
 	console.log('body', body);
 	return new Promise((resolve, reject) => {
 		const requestOptions = {
-			method:'POST',
+			method: 'POST',
 			body,
 		};
 
@@ -286,6 +286,15 @@ export async function banCourse(idCourse) {
 export async function addCategory(body) {
 	try {
 		const data = await request(`${baseUrl}/api/addCategory`, body, 'POST', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+}
+
+export async function editCourse(idCourse, body) {
+	try {
+		const data = await request(`${baseUrl}/api/updateCourse/${idCourse}`, body, 'POST', true);
 		return data;
 	} catch (error) {
 		return error;

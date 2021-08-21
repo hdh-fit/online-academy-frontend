@@ -7,12 +7,13 @@ import { Avatar, Button, Container, Grid, Paper } from '@material-ui/core';
 import CourseContent from '../../components/CoursesContent';
 import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
-import { addToWatchlist, getCourseDetail, getJoinedCourse, getWatchList, joinCourse, submitReview } from '../../api';
+import { addToWatchlist, getCourseDetail, getJoinedCourse, getMyUploadCourse, getWatchList, joinCourse, submitReview } from '../../api';
 import ReviewDialog from '../../components/ReviewDialog';
 import { formatDate, showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
 import DOMPurify from "dompurify";
 import VideoView from '../../components/VideoView';
+import jwt_decode from "jwt-decode";
 
 const CourseDetail = () => {
 	let { id } = useParams();
@@ -44,17 +45,22 @@ const CourseDetail = () => {
 			"fullname": "",
 			"listCourse": [],
 			"_id": "",
-		}
+		},
+		"_id": "",
 	};
 
 	const [course, setCourse] = useState(initCourse);
 	const [openReview, setOpenReview] = useState(false);
 	const appState = useSelector(state => state.app);
 	const [isMyCourse, setIsMyCourse] = useState(false);
+	const [isMyUploadCourse, setIsMyUploadCourse] = useState(false);
 	const [isInWatchList, setIsInWatchList] = useState(false);
 	const [openVideo, setOpenVideo] = useState(false);
 	const [videoSelect, setVideoSelect] = useState(undefined);
 	const [lessonNumber, setLessonNumber] = useState(undefined);
+
+	const decode = appState?.accessToken ? jwt_decode(appState.accessToken) : undefined;
+	const userType = decode?.type;
 
 	const onOpenVideoPress = (video, index) => {
 		setVideoSelect(video);
@@ -75,23 +81,35 @@ const CourseDetail = () => {
 				if (response.success) {
 					setCourse(response.data);
 					if (appState.isLogin) {
-						getJoinedCourse().then(res => {
-							if (res.success) {
-								const findCourse = res.data.findIndex(item => item._id === response.data._id);
-								if (findCourse !== -1) {
-									setIsMyCourse(true);
-								}
-							}
-						});
 
-						getWatchList().then(res => {
-							if (res.success) {
-								const findCourse = res.data.findIndex(item => item._id === response.data._id);
-								if (findCourse !== -1) {
-									setIsInWatchList(true);
+						if (userType === 1) {
+							getJoinedCourse().then(res => {
+								if (res.success) {
+									const findCourse = res.data.findIndex(item => item._id === response.data._id);
+									if (findCourse !== -1) {
+										setIsMyCourse(true);
+									}
 								}
-							}
-						});
+							});
+
+							getWatchList().then(res => {
+								if (res.success) {
+									const findCourse = res.data.findIndex(item => item._id === response.data._id);
+									if (findCourse !== -1) {
+										setIsInWatchList(true);
+									}
+								}
+							});
+						} else if (userType === 2) {
+							getMyUploadCourse().then(res => {
+								if (res.success) {
+									const findCourse = res.data.findIndex(item => item._id === response.data._id);
+									if (findCourse !== -1) {
+										setIsMyUploadCourse(true);
+									}
+								}
+							});
+						}
 					}
 				}
 			});
@@ -318,6 +336,8 @@ const CourseDetail = () => {
 					</Paper>
 				</div>
 				<CourseDetailCard
+					idCourse={course._id}
+					isMyUploadCourse={isMyUploadCourse}
 					isMyCourse={isMyCourse}
 					isInWatchList={isInWatchList}
 					onBuyCourse={onBuyCourse}

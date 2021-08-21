@@ -6,21 +6,38 @@ import draftToHtml from 'draftjs-to-html';
 import Menu from '../../components/Menu';
 import { Button, TextField } from "@material-ui/core";
 import CategorySelect from "../../components/CategorySelect";
-import { addCourse, getCaterogies } from "../../api";
+import { addCourse, editCourse, getCourseDetail } from "../../api";
 import { showErrorToast, showSuccessToast } from "../../core/utils";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {stateFromHTML} from 'draft-js-import-html';
+
 export default function AddCourse() {
 	const [editorState, setEditorState] = useState(() =>
 		EditorState.createEmpty()
 	);
-	const [categories, setCategories] = React.useState([]);
+	const useQuery = () => {
+		return new URLSearchParams(useLocation().search);
+	};
+	const query = useQuery();
+	const courseId = query.get("courseEdit");
+	const categories = useSelector(state => state.app.categories);
+
 	useEffect(() => {
-		getCaterogies().then(res => {
-			if (res.success) {
-				setCategories(res.categories);
-			}
-		});
-	}, []);
+		if (courseId) {
+			getCourseDetail(courseId)
+				.then(res => {
+					if (res.success) {
+						const { name, short_described, full_described, image_link, price, category } = res.data;
+						const findCategory = categories?.find(item => item.name === category) || '';
+						setCourseForm({ name, short_described, full_described, image_link, price, category: { name: category, label: findCategory?.label } });
+						const contentState = stateFromHTML(full_described);
+						const tempState = EditorState.createWithContent(contentState);
+						setEditorState(tempState);
+					}
+				});
+		}
+	}, [courseId]);// eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setCourseForm({ ...courseForm, full_described: draftToHtml(convertToRaw(editorState.getCurrentContent())) });
@@ -43,18 +60,34 @@ export default function AddCourse() {
 		const body = { ...courseForm };
 		body.category = courseForm.category.name;
 
-		addCourse(body)
-			.then(res => {
-				if (res.success === "true") {
-					showSuccessToast('Add course successfully');
-					history.push(`/add-video/${res.course._id}`);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-				showErrorToast(`${err}`);
-			});
+		if (courseId) {
+			editCourse(courseId, body)
+				.then(res => {
+					if (res.name) {
+						showSuccessToast('Edit course successfully');
+						history.push(`/add-video/${res._id}`);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+					showErrorToast(`${err}`);
+				});
+		} else {
+			addCourse(body)
+				.then(res => {
+					if (res.success === "true") {
+						showSuccessToast('Add course successfully');
+						history.push(`/add-video/${res.course._id}`);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+					showErrorToast(`${err}`);
+				});
+		}
 	};
+
+
 
 	const isValid = courseForm.name && courseForm.short_described && courseForm.full_described && courseForm.price && courseForm.image_link;
 
@@ -67,24 +100,29 @@ export default function AddCourse() {
 			<div style={{ paddingInline: 40 }}>
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<TextField
+
 						onChange={(e) => setCourseForm({ ...courseForm, name: e.target.value })}
 						style={{ marginTop: 20 }}
 						label="Course Name"
+						value={courseForm.name || ''}
 						variant="filled" />
 					<TextField
 						onChange={(e) => setCourseForm({ ...courseForm, short_described: e.target.value })}
 						style={{ marginTop: 20 }}
 						label="Short Described"
+						value={courseForm.short_described || ''}
 						variant="filled" />
 					<TextField
 						onChange={(e) => setCourseForm({ ...courseForm, price: e.target.value })}
 						style={{ marginTop: 20 }}
 						label="Price"
+						value={courseForm.price || ''}
 						variant="filled" />
 					<TextField
 						onChange={(e) => setCourseForm({ ...courseForm, image_link: e.target.value })}
 						style={{ marginTop: 20 }}
 						label="Image Link"
+						value={courseForm.image_link || ''}
 						variant="filled" />
 					<CategorySelect
 						onChange={(cate) => setCourseForm({ ...courseForm, category: cate })}

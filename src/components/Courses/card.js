@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { Star, StarOutlineOutlined, NewReleases, Favorite, Lock } from '@material-ui/icons';
+import { Star, StarOutlineOutlined, Favorite, Lock, NewReleasesTwoTone } from '@material-ui/icons';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     flex: 1,
     marginRight: 5,
-    minHeight:'100%'
+    minHeight: '100%'
   },
   media: {
     height: 0,
@@ -118,14 +118,19 @@ export default function CourseCard({ course, isFromSeach, onBanCourse }) {
           </div>
         </CardContent>
       </CardActionArea>
-      <CardActions style={{ padding: 0, margin: 0 }} disableSpacing>
+      <CardActions style={{ padding: 0, margin: 0}} disableSpacing>
+        {today.diff(a, 'days') <= 1 && (
+          <React.Fragment>
+            <IconButton disabled aria-label="share">
+              <NewReleasesTwoTone color={'error'} />
+            </IconButton>
+          </React.Fragment>
+        )}
+
         <IconButton onClick={isAdmin ? onBanCoursePress : null} aria-label="share">
           {isAdmin ? <Lock /> : <Favorite color={'error'} />}
         </IconButton>
-        {today.diff(a, 'days') <= 1 && <IconButton onClick={null} aria-label="share">
-          <NewReleases color={'error'} />
-        </IconButton>
-        }
+
       </CardActions>
     </Card>
   );

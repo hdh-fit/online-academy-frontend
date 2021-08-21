@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 //import image from '../Courses/contemplative-reptile.jpeg';
 
 import ReactPlayer from 'react-player';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -22,8 +23,9 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList }) {
+export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList, isMyUploadCourse, idCourse }) {
 	const classes = useStyles();
+	const history = useHistory();
 
 	return (
 		<Card elevation={5} className={classes.root}>
@@ -48,24 +50,42 @@ export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, on
 				</CardContent>
 			</CardActionArea>
 			<CardActions style={{ justifyContent: 'center' }}>
-				<Button
-					variant={'contained'}
-					size="medium"
-					style={{ fontWeight: 'bold', width: 150 }}
-					onClick={onAddWatchList}
-					color={isInWatchList ? 'primary' : 'secondary'}
-				>
-					{!isInWatchList ? '(+) Watch List' : '(-) Watch List'}
-				</Button>
-				<Button
-					size="medium"
-					variant={'contained'}
-					style={{ width: 150, fontWeight: 'bold' }}
-					color={isMyCourse ? 'primary' : 'secondary'}
-					onClick={isMyCourse ? null : onBuyCourse}
-				>
-					{isMyCourse ? 'Enrolled' : 'Enroll'}
-				</Button>
+				{!isMyUploadCourse
+					? (
+						<React.Fragment>
+							<Button
+								variant={'contained'}
+								size="medium"
+								style={{ fontWeight: 'bold', width: 150 }}
+								onClick={onAddWatchList}
+								color={isInWatchList ? 'primary' : 'secondary'}
+							>
+								{!isInWatchList ? '(+) Watch List' : '(-) Watch List'}
+							</Button>
+							<Button
+								size="medium"
+								variant={'contained'}
+								style={{ width: 150, fontWeight: 'bold' }}
+								color={isMyCourse ? 'primary' : 'secondary'}
+								onClick={isMyCourse ? null : onBuyCourse}
+							>
+								{isMyCourse ? 'Enrolled' : 'Enroll'}
+							</Button>
+						</React.Fragment>
+					)
+					: (
+						<Button
+							variant={'contained'}
+							size="medium"
+							style={{ fontWeight: 'bold', width: 150 }}
+							onClick={() => history.push(`/add-course?courseEdit=${idCourse}`)}
+							color={'primary'}
+						>
+							{'Edit course'}
+						</Button>
+					)
+				}
+
 			</CardActions>
 		</Card >
 	);

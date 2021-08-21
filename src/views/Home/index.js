@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { banCourse, getBestCourses, getTopNew, getTopView } from '../../api';
+import { banCourse, getBestCourses, getTop5Enroll, getTopNew, getTopView } from '../../api';
 import CourseCard from '../../components/Courses/card';
 import Menu from '../../components/Menu';
 import { showSuccessToast } from '../../core/utils';
@@ -10,6 +10,7 @@ const Home = (props) => {
   const [topView, setTopView] = useState([]);
   const [topNew, setTopNew] = useState([]);
   const [bestCourse, setBestCourse] = useState([]);
+  const [topEnrollCourse, setTopEnrollCourse] = useState([]);
 
   useEffect(() => {
     refreshData();
@@ -19,6 +20,7 @@ const Home = (props) => {
     getCourseNew();
     getCourseTopView();
     getBestCourseList();
+    getTopEnrollCourse();
   };
 
   const onBanCourse = (id) => {
@@ -58,21 +60,15 @@ const Home = (props) => {
         }
       });
   };
-  //const [nameVideo, setnameVideo] = useState("");
-  //const [idCourse, setidCourse] = useState("");
-  //const [video, setvideo] = useState(undefined);
-  //const ref = useRef(null);
 
-  //const onupload = () => {
-  //  let form = new FormData();
-  //  form.append('nameVideo', nameVideo);
-  //  form.append('idCourse', idCourse);
-  //  form.append('video', video);
-
-  //  //upLoadVideo({ nameVideo, idCourse, video })
-  //  //  .then(res => console.log(res))
-  //  //  .catch(err => console.log(err));
-  //};
+  const getTopEnrollCourse = () => {
+    getTop5Enroll()
+      .then(response => {
+        if (response.success) {
+          setTopEnrollCourse(response.data);
+        }
+      });
+  };
 
   return (
     <div style={{
@@ -139,13 +135,23 @@ const Home = (props) => {
       </Carousel>
       <h3 style={{ paddingLeft: 40 }}>{'Khoá học nổi bật'}</h3>
       <Grid
-        style={{ paddingInline: 40,height:390}}
+        style={{ paddingInline: 40, height: 390 }}
         container
         alignItems="center"
         justifyContent="center"
         direction="row">
         {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
         {[...bestCourse].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
+      </Grid>
+      <h3 style={{ paddingLeft: 40, marginTop: 20 }}>{'Top enrolled course in week'}</h3>
+      <Grid
+        style={{ paddingInline: 40, height: 390 }}
+        container
+        alignItems="center"
+        justifyContent="center"
+        direction="row">
+        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+        {[...topEnrollCourse].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
       </Grid>
     </div>
   );

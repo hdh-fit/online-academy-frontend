@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export const showOptionAlert = (onCancel) => {
 	Swal.fire({
-		title: 'Continue upload lesson?',
+		title: 'Upload lesson successfully. Continue upload lesson?',
 		icon: 'question',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
