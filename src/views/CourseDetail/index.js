@@ -237,6 +237,9 @@ const CourseDetail = () => {
 				<div style={{ flex: 1 }}>
 
 					<Paper variant="outlined">
+						<div style={{ display: 'flex', justifyContent: 'center' }}>
+							<img alt={course.name} style={{ alignSelf: 'center', flex: 1,maxWidth:1290 }} src={course.image_link} />
+						</div>
 						<h3 style={{ padding: 15, paddingBottom: 5 }}>
 							{`What you'll learn`}
 						</h3>
@@ -350,6 +353,7 @@ const CourseDetail = () => {
 						})}
 					</Paper>
 					<CourseDetailCard
+						userType={userType}
 						idCourse={course._id}
 						isMyUploadCourse={isMyUploadCourse}
 						isMyCourse={isMyCourse}

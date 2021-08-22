@@ -20,12 +20,12 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList, isMyUploadCourse, idCourse }) {
+export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList, isMyUploadCourse, idCourse, userType }) {
 	const classes = useStyles();
 	const history = useHistory();
 
 	return (
-		<Card style={{marginLeft:-8}} elevation={0} className={classes.root}>
+		<Card style={{ marginLeft: -8 }} elevation={0} className={classes.root}>
 			<CardActionArea>
 				{/*<CardMedia
 					className={classes.media}
@@ -38,24 +38,28 @@ export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, on
 				{!isMyUploadCourse
 					? (
 						<React.Fragment>
-							<Button
-								variant={'contained'}
-								size="medium"
-								style={{ fontWeight: 'bold', width: 150 }}
-								onClick={onAddWatchList}
-								color={isInWatchList ? 'primary' : 'secondary'}
-							>
-								{!isInWatchList ? '(+) Watch List' : '(-) Watch List'}
-							</Button>
-							<Button
-								size="medium"
-								variant={'contained'}
-								style={{ width: 150, fontWeight: 'bold' }}
-								color={isMyCourse ? 'primary' : 'secondary'}
-								onClick={isMyCourse ? null : onBuyCourse}
-							>
-								{isMyCourse ? 'Enrolled' : 'Enroll'}
-							</Button>
+							{userType !== 2 && (
+								<Button
+									variant={'contained'}
+									size="medium"
+									style={{ fontWeight: 'bold', width: 150 }}
+									onClick={onAddWatchList}
+									color={isInWatchList ? 'primary' : 'secondary'}
+								>
+									{!isInWatchList ? '(+) Watch List' : '(-) Watch List'}
+								</Button>
+							)}
+							{userType !== 2 && (
+								<Button
+									size="medium"
+									variant={'contained'}
+									style={{ width: 150, fontWeight: 'bold' }}
+									color={isMyCourse ? 'primary' : 'secondary'}
+									onClick={isMyCourse ? null : onBuyCourse}
+								>
+									{isMyCourse ? 'Enrolled' : 'Enroll'}
+								</Button>
+							)}
 						</React.Fragment>
 					)
 					: (
