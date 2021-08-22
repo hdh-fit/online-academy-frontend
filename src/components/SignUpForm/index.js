@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Select, MenuItem } from '@material-ui/core';
+import { EmailValidator, PasswordValidator, PhoneNumberValidator } from '../../core/utils';
 
 export default function SignUpForm({ isOpen, onClose, onSignUp, isAddTeacher }) {
 	const initForm = {
@@ -21,11 +22,13 @@ export default function SignUpForm({ isOpen, onClose, onSignUp, isAddTeacher }) 
 
 	const [form, setForm] = React.useState(initForm);
 
-	const isValidForm = form.fullname && form.username && form.password && form.phone && form.gender && form.dob && form.email;
+	const isValidForm = form.fullname && form.username && PasswordValidator(form.password) && PhoneNumberValidator(form.phone) && form.gender && form.dob && EmailValidator(form.email);
 
 	const onSubmitForm = () => {
 		onSignUp(form);
 	};
+
+
 
 	return (
 		<div>

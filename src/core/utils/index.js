@@ -97,3 +97,23 @@ export const chunk = (arr, size) =>
 	Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
 		arr.slice(i * size, i * size + size)
 	);
+
+const PATTERN_EMAIL = /\S+@\S+\.\S+/;
+const PATTERN_PASSWORD = /[a-z0-9]{6,}/;
+export const PATTERN_PHONE = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
+
+export const EmailValidator = (value) => {
+	return RegExpValidator(PATTERN_EMAIL, value);
+};
+
+const RegExpValidator = (regexp, value) => {
+	return regexp.test(value);
+};
+
+export const PasswordValidator = (value) => {
+  return RegExpValidator(PATTERN_PASSWORD, value);
+};
+
+export const PhoneNumberValidator = (value) => {
+  return RegExpValidator(PATTERN_PHONE, value);
+};
