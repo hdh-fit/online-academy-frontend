@@ -163,7 +163,6 @@ export default function AddCourse() {
 							variant={'contained'}
 							color={'secondary'}
 							style={{ fontWeight: "bold", marginTop: 20, marginBottom: 20, width: 100 }}
-							variant={'contained'}
 							onClick={() => history.push(`/add-image/${courseId}`)}>
 							{'Skip'}
 						</Button>

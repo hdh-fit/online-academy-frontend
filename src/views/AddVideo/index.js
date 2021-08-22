@@ -75,7 +75,6 @@ export default function AddVideo() {
 						variant={'contained'}
 						color={'secondary'}
 						style={{ fontWeight: "bold", marginTop: 20, marginBottom: 20, width: 100 }}
-						variant={'contained'}
 						onClick={() => history.push(`/course/${id}`)}>
 						{'Skip'}
 					</Button>

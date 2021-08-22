@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import Menu from '../../components/Menu';
-import { Button, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { upLoadImage } from "../../api";
-import { showOptionAlert, showSuccessToast } from "../../core/utils";
+import {  showSuccessToast } from "../../core/utils";
 import { useHistory, useParams } from "react-router-dom";
 import SimpleBackdrop from "../../components/Loading";
 import { useSelector, useDispatch } from "react-redux";
@@ -53,14 +53,13 @@ export default function AddImage() {
 				</div>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<Button
-						disabled={img == undefined}
-						style={{ backgroundColor: img == undefined ? 'gray' : 'black', color: "white", fontWeight: "bold", marginTop: 20, marginBottom: 20, marginRight: 12, }}
+						disabled={img === undefined}
+						style={{ backgroundColor: img === undefined ? 'gray' : 'black', color: "white", fontWeight: "bold", marginTop: 20, marginBottom: 20, marginRight: 12, }}
 						variant={'contained'}
 						onClick={onUpLoad}>
 						{'Upload'}
 					</Button>
 					<Button
-						variant={'contained'}
 						color={'secondary'}
 						style={{ fontWeight: "bold", marginTop: 20, marginBottom: 20, width: 100 }}
 						variant={'contained'}
