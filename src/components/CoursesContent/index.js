@@ -10,6 +10,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Folder from '@material-ui/icons/Folder';
 import Divider from '@material-ui/core/Divider';
+import { showErrorToast } from '../../core/utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function CourseContent({ lessons, onOpenVideoPress }) {
+export default function CourseContent({ lessons, onOpenVideoPress, userType, isMyCourse }) {
 	const classes = useStyles();
 	const [indexOpen, setIndexOpen] = React.useState(undefined);
 
@@ -32,6 +33,15 @@ export default function CourseContent({ lessons, onOpenVideoPress }) {
 			return;
 		}
 		setIndexOpen(index);
+	};
+
+	const onClickVideo = (item, index) => {
+		console.log(userType, isMyCourse);
+		if (userType === 3 || isMyCourse || index < 2) {
+			onOpenVideoPress(item, index);
+		} else {
+			showErrorToast('You need enroll course to view lesson.');
+		}
 	};
 
 	return (
@@ -58,7 +68,7 @@ export default function CourseContent({ lessons, onOpenVideoPress }) {
 									<ListItemIcon>
 										<VideoCall />
 									</ListItemIcon>
-									<ListItemText onClick={() => onOpenVideoPress(item, index)} primary="Open video" />
+									<ListItemText onClick={() => onClickVideo(item, index)} primary="Open video" />
 								</ListItem>
 							</List>
 						</Collapse>

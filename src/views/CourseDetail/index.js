@@ -269,6 +269,8 @@ const CourseDetail = () => {
 						{'Course content'}
 					</h3>
 					<CourseContent
+						isMyCourse={isMyCourse || isMyUploadCourse}
+						userType={userType}
 						onOpenVideoPress={onOpenVideoPress}
 						lessons={course.video}
 					/>

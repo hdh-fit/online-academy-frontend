@@ -90,7 +90,7 @@ export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnr
       <CardActionArea onClick={() => history.push(`/course/${courseData._id}`)}>
         {isLoading ? (
           <div style={{ height: 140, justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
-            <CircularProgress color={'inherit'}/>
+            <CircularProgress color={'inherit'} />
           </div>
         ) : (
           <CardMedia
@@ -152,7 +152,7 @@ export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnr
         )}
 
         {showCourseStatus && (
-          <span style={{ color: 'red' }}>
+          <span style={{ color: 'red', marginLeft: 18 }}>
             {'In progress'}
           </span>
         )}
