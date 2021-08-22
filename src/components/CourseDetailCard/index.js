@@ -20,7 +20,17 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, onAddWatchList, isInWatchList, isMyUploadCourse, idCourse, userType }) {
+export default function CourseDetailCard({
+	onBuyCourse,
+	isMyCourse,
+	onAddWatchList,
+	isInWatchList,
+	isMyUploadCourse,
+	idCourse,
+	userType,
+	isShowFinishButton,
+	onFinishCourse
+}) {
 	const classes = useStyles();
 	const history = useHistory();
 
@@ -63,17 +73,29 @@ export default function CourseDetailCard({ videoSrc, onBuyCourse, isMyCourse, on
 						</React.Fragment>
 					)
 					: (
-						<Button
-							variant={'contained'}
-							size="medium"
-							style={{ fontWeight: 'bold', width: 150 }}
-							onClick={() => history.push(`/add-course?courseEdit=${idCourse}`)}
-							color={'primary'}
-						>
-							{'Edit course'}
-						</Button>
-					)
-				}
+						<React.Fragment>
+							<Button
+								variant={'contained'}
+								size="medium"
+								style={{ fontWeight: 'bold', width: 150 }}
+								onClick={() => history.push(`/add-course?courseEdit=${idCourse}`)}
+								color={'primary'}
+							>
+								{'Edit course'}
+							</Button>
+							{isShowFinishButton && (
+								<Button
+									variant={'contained'}
+									size="medium"
+									style={{ fontWeight: 'bold', width: 150 }}
+									onClick={onFinishCourse}
+									color={'primary'}
+								>
+									{'Finish course'}
+								</Button>
+							)}
+						</React.Fragment>
+					)}
 
 			</CardActions>
 		</Card >

@@ -346,3 +346,12 @@ export async function getTop5Enroll(idTeacher) {
 		return error;
 	}
 }
+
+export async function finishCourse(idCourse) {
+	try {
+		const data = await request(`${baseUrl}/api/isFinsh/${idCourse}`, null, 'GET', true);
+		return data;
+	} catch (error) {
+		return error;
+	}
+};

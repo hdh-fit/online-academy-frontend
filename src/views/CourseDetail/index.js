@@ -7,7 +7,7 @@ import { Avatar, Button, Container, Grid, Paper } from '@material-ui/core';
 import CourseContent from '../../components/CoursesContent';
 import CourseDetailCard from '../../components/CourseDetailCard';
 import image from '../../components/Courses/contemplative-reptile.jpeg';
-import { addToWatchlist, getCourseDetail, getJoinedCourse, getMyUploadCourse, getWatchList, joinCourse, submitReview } from '../../api';
+import { addToWatchlist, getCourseDetail, getJoinedCourse, getMyUploadCourse, getWatchList, joinCourse, submitReview, finishCourse } from '../../api';
 import ReviewDialog from '../../components/ReviewDialog';
 import { formatDate, showErrorToast, showSuccessToast } from '../../core/utils';
 import { useSelector } from 'react-redux';
@@ -56,6 +56,7 @@ const CourseDetail = () => {
 	const [isMyCourse, setIsMyCourse] = useState(false);
 	const [isMyUploadCourse, setIsMyUploadCourse] = useState(false);
 	const [isInWatchList, setIsInWatchList] = useState(false);
+	const [isFinish, setIsFinish] = useState(false);
 	const [openVideo, setOpenVideo] = useState(false);
 	const [videoSelect, setVideoSelect] = useState(undefined);
 	const [lessonNumber, setLessonNumber] = useState(undefined);
@@ -80,6 +81,7 @@ const CourseDetail = () => {
 		getCourseDetail(id)
 			.then(response => {
 				if (response.success) {
+					setIsFinish(response.data.isFinish);
 					setCourse(response.data);
 					if (appState.isLogin) {
 
@@ -151,6 +153,21 @@ const CourseDetail = () => {
 		} else {
 			showErrorToast(`You need login to enroll course.`);
 		}
+	};
+
+	const onFinish = () => {
+		finishCourse(course._id)
+			.then(res => {
+				if (res.name) {
+					showSuccessToast('Finish course successfully.');
+					setIsFinish(true);
+				} else {
+					showErrorToast(`${res}`);
+				}
+			})
+			.catch(err => {
+				showErrorToast(`${err}`);
+			});
 	};
 
 	const onAddWatchList = () => {
@@ -238,7 +255,7 @@ const CourseDetail = () => {
 
 					<Paper variant="outlined">
 						<div style={{ display: 'flex', justifyContent: 'center' }}>
-							<img alt={course.name} style={{ alignSelf: 'center', flex: 1,maxWidth:1290 }} src={course.image_link} />
+							<img alt={course.name} style={{ alignSelf: 'center', flex: 1, maxWidth: 1290 }} src={course.image_link} />
 						</div>
 						<h3 style={{ padding: 15, paddingBottom: 5 }}>
 							{`What you'll learn`}
@@ -353,6 +370,8 @@ const CourseDetail = () => {
 						})}
 					</Paper>
 					<CourseDetailCard
+						onFinishCourse={onFinish}
+						isShowFinishButton={isMyUploadCourse && !isFinish}
 						userType={userType}
 						idCourse={course._id}
 						isMyUploadCourse={isMyUploadCourse}
