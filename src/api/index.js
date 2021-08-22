@@ -2,6 +2,7 @@ import { store } from "../core/store";
 import { onSaveCategories } from "../core/store/reducer/app/actions";
 const baseUrl = 'https://fit-study.herokuapp.com';
 const videoHost = 'https://hostVideo.longhofit.repl.co';
+const imageHost = 'https://hostVideo.longhofit.repl.co/img';
 
 const request = (url, body, method, hasToken) => {
 	return new Promise((resolve, reject) => {
@@ -32,7 +33,7 @@ const request = (url, body, method, hasToken) => {
 	});
 };
 
-const requestFile = (body) => {
+const requestFile = (body, isImage) => {
 	console.log('body', body);
 	return new Promise((resolve, reject) => {
 		const requestOptions = {
@@ -40,7 +41,7 @@ const requestFile = (body) => {
 			body,
 		};
 
-		fetch(videoHost, requestOptions)
+		fetch(isImage ? imageHost : videoHost, requestOptions)
 			.then(response => {
 				response.json().then(data => {
 					console.log(data);
@@ -60,6 +61,15 @@ export async function upLoadVideo(body) {
 		return data;
 	} catch (error) {
 		return error.response.status;
+	}
+}
+
+export async function upLoadImage(body) {
+	try {
+		const data = await requestFile(body, true);
+		return data;
+	} catch (error) {
+		return error;
 	}
 }
 

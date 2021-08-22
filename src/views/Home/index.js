@@ -94,14 +94,14 @@ const Home = (props) => {
           container
           direction="row"
         >
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
           {[...topView].slice(0, 5).map(course => <CourseCard onBanCourse={onBanCourse} key={course._id} course={course} />)}
         </Grid>
         <Grid
           style={{ paddingInline: 40 }}
           container
           direction="row">
-          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {topView.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
           {[...topView].slice(5).map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
         </Grid>
       </Carousel>
@@ -122,14 +122,14 @@ const Home = (props) => {
           style={{ paddingInline: 40 }}
           container
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
           {[...topNew].slice(0, 5).map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
         </Grid>
         <Grid
           style={{ paddingInline: 40 }}
           container
           direction="row">
-          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+          {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
           {[...topNew].slice(5).map(course => <CourseCard course={course} key={course._id} />)}
         </Grid>
       </Carousel>
@@ -140,7 +140,7 @@ const Home = (props) => {
         alignItems="center"
         justifyContent="center"
         direction="row">
-        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
         {[...bestCourse].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
       </Grid>
       <h3 style={{ paddingLeft: 40, marginTop: 20 }}>{'Top enrolled course in week'}</h3>
@@ -150,7 +150,7 @@ const Home = (props) => {
         alignItems="center"
         justifyContent="center"
         direction="row">
-        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} />)}
+        {topNew.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} />)}
         {[...topEnrollCourse].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} />)}
       </Grid>
     </div>

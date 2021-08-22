@@ -30,8 +30,9 @@ const Search = (props) => {
 	const teacherName = query.get("teacherName");
 	const type = query.get("type");
 	const [page, setPage] = useState(1);
-	const [pageMax, setPageMax] = useState(3);
+	const [pageMax, setPageMax] = useState(1);
 	const [sortField, setSortField] = useState(undefined);
+	const [loading, setLoading] = useState(false);
 
 
 	useEffect(() => {
@@ -40,21 +41,24 @@ const Search = (props) => {
 
 	const refreshData = () => {
 		if (!!teacherId) {
+			setLoading(true);
 			viewTeacherCourse(teacherId).then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 		if (!!categoryName) {
+			setLoading(true);
 			getCourseByCategoryName(categoryName, page).then(res => {
 				if (res.success) {
 					setCourses(res.data.course);
 					setPageMax(res.data.pageMax);
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 		if (!!searchKeyword) {
+			setLoading(true);
 			searchCourse(searchKeyword, page)
 				.then(res => {
 					if (res.success) {
@@ -63,53 +67,60 @@ const Search = (props) => {
 
 					} else {
 					}
-				});
+				}).finally(() => setLoading(false));
 		}
 		if (type === 'My Course') {
+			setLoading(true);
 			getJoinedCourse().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 
 		if (type === 'Watch List') {
+			setLoading(true);
 			getWatchList().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 
 		if (type === 'My Upload') {
+			setLoading(true);
 			getMyUploadCourse().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 
 		if (type === 'All Course') {
+			setLoading(true);
 			getAllCourse().then(res => {
 				if (res.success) {
 					setCourses(res.data);
 				} else {
 				}
-			});
+			}).finally(() => setLoading(false));
 		}
 	};
 
 	const onBanCourse = (id) => {
+		setLoading(true);
 		banCourse(id)
 			.then(res => {
 				showSuccessToast('Lock course succesfully.');
 				refreshData();
+				setLoading(false);
 			})
 			.catch(err => {
 				console.log(err);
+				setLoading(false);
 			});
 	};
 
@@ -138,14 +149,16 @@ const Search = (props) => {
 					</Select>
 				</div>
 			</div>
+			{!loading && courses.length === 0 && <h3 style={{ paddingLeft: 40 }}>No course found</h3>}
+
 			{type === 'All Course'
-				? chunk([...courses], 5).map(arr => (
+				? chunk(orderBy([...courses], sortField), 5).map(arr => (
 					(<React.Fragment>
 						<Grid
 							style={{ paddingInline: 40, marginTop: 20 }}
 							container
 						>
-							{arr.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
+							{arr.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading key={course} isFromSeach />)}
 							{[...arr].map(course => <CourseCard onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
 						</Grid>
 					</React.Fragment>)
@@ -155,12 +168,13 @@ const Search = (props) => {
 						style={{ paddingInline: 40 }}
 						container
 					>
-						{courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard key={course} isFromSeach />)}
+						{loading && courses.length === 0 && [1, 2, 3, 4, 5].map(course => <CourseCard isLoading={true} key={course} isFromSeach />)}
 						{orderBy([...courses], sortField).map(course => <CourseCard isFromEnrolled={type === 'My Course'} onBanCourse={onBanCourse} course={course} key={course._id} isFromSeach />)}
 					</Grid>
-					<div style={{ display: 'flex', justifyContent: 'center' }}>
+					{courses.length !== 0 && <div style={{ display: 'flex', justifyContent: 'center' }}>
 						<BasicPagination pageMax={pageMax} onChange={setPage} />
 					</div>
+					}
 				</React.Fragment>)}
 		</div>
 	);

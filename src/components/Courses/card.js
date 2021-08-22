@@ -14,6 +14,7 @@ import { red } from '@material-ui/core/colors';
 import moment from 'moment';
 import jwt_decode from "jwt-decode";
 import { useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const initCourse = {
   "_id": "",
@@ -33,7 +34,8 @@ const initCourse = {
   ],
   "idTeacher": "",
   "video": [],
-  "nameTeacher": ""
+  "nameTeacher": "",
+  "newPrice": -1
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +70,7 @@ const OutlinedStart = (size = 17) => <StarOutlineOutlined style={{ fontSize: siz
 
 
 
-export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnrolled }) {
+export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnrolled, isLoading }) {
   const classes = useStyles();
   const history = useHistory();
   const courseData = course ? course : initCourse;
@@ -86,13 +88,19 @@ export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnr
   return (
     <Card variant="outlined" className={classes.root}>
       <CardActionArea onClick={() => history.push(`/course/${courseData._id}`)}>
-        <CardMedia
-          component="img"
-          alt={courseData.name}
-          height="140"
-          image={courseData.image_link}
-          title="Contemplative Reptile"
-        />
+        {isLoading ? (
+          <div style={{ height: 140, justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <CardMedia
+            component="img"
+            alt={courseData.name}
+            height="140"
+            image={courseData.image_link}
+            title="Contemplative Reptile"
+          />
+        )}
         <CardContent>
           <Typography style={{ fontWeight: 'bold' }} variant="body1" component="p">
             {courseData.name}
@@ -114,9 +122,18 @@ export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnr
               </span>
             )}
           </Grid>
-          <div style={{ fontWeight: 'bold' }}>
-            {`${courseData.price} VND`}
-          </div>
+          {courseData.newPrice !== -1
+            ? <del style={{ fontWeight: 'bold' }}>
+              {`${courseData.price} VND`}
+            </del>
+            : <div style={{ fontWeight: 'bold' }}>
+              {`${courseData.price} VND`}
+            </div>}
+          {courseData.newPrice !== -1 && (
+            <div style={{ fontWeight: 'bold', color: 'red' }}>
+              {`${courseData.newPrice} VND`}
+            </div>
+          )}
         </CardContent>
       </CardActionArea>
       <CardActions style={{ padding: 0, margin: 0 }} disableSpacing>
@@ -128,9 +145,12 @@ export default function CourseCard({ course, isFromSeach, onBanCourse, isFromEnr
           </React.Fragment>
         )}
 
-        <IconButton onClick={isAdmin ? onBanCoursePress : null} aria-label="share">
-          {isAdmin ? <Lock /> : <Favorite color={'error'} />}
-        </IconButton>
+        {isAdmin && (
+          <IconButton onClick={onBanCoursePress} aria-label="share">
+            {<Lock />}
+          </IconButton>
+        )}
+
         {showCourseStatus && (
           <span style={{ color: 'red' }}>
             {'In progress'}

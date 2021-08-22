@@ -17,6 +17,7 @@ import Search from './views/Search';
 import AddCourse from './views/AddCourse';
 import CategoryManager from './views/CategoryManage';
 import AddVideo from './views/AddVideo';
+import AddImage from './views/AddImage';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -29,6 +30,7 @@ ReactDOM.render(
           <Route path="/myprofile" component={Profile} />
           <Route path="/add-course" component={AddCourse} />
           <Route path="/add-video/:id" component={AddVideo} />
+          <Route path="/add-image/:id" component={AddImage} />
           <Route path="/category-manager" component={CategoryManager} />
           <Route path="/" component={Home} />
         </Switch>

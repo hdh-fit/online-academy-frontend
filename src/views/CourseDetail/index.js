@@ -47,6 +47,7 @@ const CourseDetail = () => {
 			"_id": "",
 		},
 		"_id": "",
+		"newPrice": -1,
 	};
 
 	const [course, setCourse] = useState(initCourse);
@@ -214,9 +215,22 @@ const CourseDetail = () => {
 							{` (${course.review.length} ratings) ${course.listStudent?.length || 0} students`}
 						</span>
 					</Grid>
-					<span style={{ fontSize: 14 }}>
+					{course.newPrice !== -1
+						? <del style={{}}>
+							{`${course.price} VND`}
+						</del>
+						: <div style={{}}>
+							{`${course.price} VND`}
+						</div>}
+					{course.newPrice !== -1 && (
+						<div style={{}}>
+							{`${course.newPrice} VND`}
+						</div>
+					)}
+					<div style={{ fontSize: 14 }}>
 						{`Last updated ${formatDate(course.dateCourse)}`}
-					</span>
+					</div>
+
 				</Container>
 			</div>
 			<Container style={{ display: 'flex', paddingTop: 40 }}>

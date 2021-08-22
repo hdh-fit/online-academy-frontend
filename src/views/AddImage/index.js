@@ -1,46 +1,39 @@
 import React, { useRef, useState } from "react";
 import Menu from '../../components/Menu';
 import { Button, TextField } from "@material-ui/core";
-import { upLoadVideo } from "../../api";
-import { showOptionAlert } from "../../core/utils";
+import { upLoadImage } from "../../api";
+import { showOptionAlert, showSuccessToast } from "../../core/utils";
 import { useHistory, useParams } from "react-router-dom";
-import { disabelSpinner, enabelSpinner } from "../../core/store/reducer/app/actions";
-import { useDispatch, useSelector } from "react-redux";
 import SimpleBackdrop from "../../components/Loading";
-export default function AddVideo() {
+import { useSelector, useDispatch } from "react-redux";
+import { enabelSpinner, disabelSpinner } from "../../core/store/reducer/app/actions";
+
+export default function AddImage() {
 	const { id } = useParams();
-	const [lessionName, setLessionName] = useState(undefined);
-	const [video, setVideo] = useState(undefined);
+	const [img, setImg] = useState(undefined);
 	const ref = useRef(null);
 	const history = useHistory();
+	const { isLoading } = useSelector(state => state.app);
 	const dispatch = useDispatch();
 
-	const { isLoading } = useSelector(state => state.app);
-
 	const onUpLoad = () => {
-		let form = new FormData();
-		form.append('nameVideo', lessionName);
-		form.append('idCourse', id);
-		form.append('video', video);
-
-		const onCancel = () => {
-			history.push(`/course/${id}`);
-		};
-
 		dispatch(enabelSpinner());
-		upLoadVideo(form)
+		let form = new FormData();
+		form.append('img', img);
+		form.append('courseId', id);
+
+
+		upLoadImage(form)
 			.then(res => {
-				if (res.name) {
-					showOptionAlert(onCancel);
-					setLessionName(undefined);
-					setVideo(undefined);
+				if (res.success) {
+					showSuccessToast('Upload image sucessfully.');
+					history.push(`/add-video/${id}`);
 				}
 			})
 			.catch(err => console.log(err))
 			.finally(() => dispatch(disabelSpinner()));
 	};
 
-	const disable = video === undefined || !lessionName;
 
 	return (
 		<div style={{
@@ -48,25 +41,20 @@ export default function AddVideo() {
 		}}>
 			<Menu />
 			<div style={{ paddingInline: 40 }}>
-				<h4 style={{ marginTop: 12 }}>Add lession</h4>
+				<h4 style={{ marginTop: 12, marginBottom: 12 }}>Add course image</h4>
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<TextField
-						onChange={(e) => setLessionName(e.target.value)}
-						style={{ marginBottom: 20 }}
-						label="Lesson Name"
-						variant="filled" />
 					<input
 						type="file"
 						ref={ref}
 						onChange={(e) => {
-							setVideo(e.target.files[0]);
+							setImg(e.target.files[0]);
 						}}
 					/>
 				</div>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<Button
-						disabled={disable}
-						style={{ backgroundColor: disable ? 'gray' : 'black', color: 'white', fontWeight: "bold", marginTop: 20, marginBottom: 20, marginRight: 12, }}
+						disabled={img == undefined}
+						style={{ backgroundColor: img == undefined ? 'gray' : 'black', color: "white", fontWeight: "bold", marginTop: 20, marginBottom: 20, marginRight: 12, }}
 						variant={'contained'}
 						onClick={onUpLoad}>
 						{'Upload'}
@@ -76,17 +64,14 @@ export default function AddVideo() {
 						color={'secondary'}
 						style={{ fontWeight: "bold", marginTop: 20, marginBottom: 20, width: 100 }}
 						variant={'contained'}
-						onClick={() => history.push(`/course/${id}`)}>
+						onClick={() => history.push(`/add-video/${id}`)}>
 						{'Skip'}
 					</Button>
-
 				</div>
 
 			</div>
-
-
 			<SimpleBackdrop open={isLoading} />
 
-		</div>
+		</div >
 	);
 }

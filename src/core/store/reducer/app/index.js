@@ -1,4 +1,6 @@
 import {
+  DISABLE_SPINNER,
+  ENABLE_SPINNER,
   LOGIN_SUCCESS,
   LOG_OUT_SUCCESS,
   SAVE_CATEGORIES
@@ -8,6 +10,7 @@ const initialState = {
   accessToken: undefined,
   isLogin: false,
   categories: [],
+  isLoading: false
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -30,6 +33,18 @@ export const appReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload
+      };
+    }
+    case ENABLE_SPINNER: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+    case DISABLE_SPINNER: {
+      return {
+        ...state,
+        isLoading: false
       };
     }
     default: {
