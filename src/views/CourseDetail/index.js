@@ -360,9 +360,11 @@ const CourseDetail = () => {
 											{item.fullname}
 										</h5>
 										{[1, 2, 3, 4, 5].map(starPoint => (item.rate >= starPoint ? FillStar(19) : OutlinedStart(19)))}
-										<span style={{ fontSize: 12, color: 'GrayText', paddingLeft: 8 }}>
-											{'2 weeks ago'}
-										</span>
+										{item.date && (
+											<span style={{ fontSize: 12, color: 'GrayText', paddingLeft: 8 }}>
+												{formatDate(item.date)}
+											</span>
+										)}
 										<p style={{ marginTop: 12 }}>
 											{item.comment}
 										</p>
