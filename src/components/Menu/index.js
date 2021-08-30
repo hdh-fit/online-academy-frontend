@@ -22,6 +22,7 @@ import { getCaterogies, signIn, signUp } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLoginSuccess, onLogOutSuccess } from '../../core/store/reducer/app/actions';
 import { showErrorToast, showSuccessAlert } from '../../core/utils';
+import SimpleBackdrop from '../Loading';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,6 +96,7 @@ export default function PrimarySearchAppBar() {
   const dispatch = useDispatch();
   const appState = useSelector(state => state.app);
   const [searchKeyword, setSearchKeyword] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const onSeachKeyChange = (text) => {
     setSearchKeyword(text);
@@ -155,35 +157,44 @@ export default function PrimarySearchAppBar() {
   };
 
   const onSignUp = (data) => {
+    closeModal();
+    setIsLoading(true);
     signUp(data)
       .then(rs => {
         if (rs.success) {
-          closeModal();
           showSuccessAlert('Sign up successfully.');
         } else {
           showErrorToast("Some thing wrong.");
+          setIsSignUp(true);
+
         }
       })
       .catch(error => {
         showErrorToast("Some thing wrong.");
         console.log(error);
-      });
+        setIsSignUp(true);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onSignIn = (signInReq) => {
+    setIsOpenLogin(false);
+    setIsLoading(true);
     signIn(signInReq)
       .then(response => {
         if (response.success) {
           dispatch(onLoginSuccess(response.data.accessToken));
-          setIsOpenLogin(false);
         } else {
           showErrorToast("Invalid username or password.");
+          setIsOpenLogin(true);
         }
       })
       .catch(error => {
         console.log(error);
         showErrorToast("Some thing wrong.");
-      });
+        setIsOpenLogin(true);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const menuId = 'primary-search-account-menu';
@@ -245,6 +256,8 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
+      <SimpleBackdrop open={isLoading} />
+
       <AppBar color={'default'} position="relative">
         <FormDialog
           onSignIn={onSignIn}

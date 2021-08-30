@@ -48,7 +48,7 @@ export default function AddVideo() {
 		}}>
 			<Menu />
 			<div style={{ paddingInline: 40 }}>
-				<h4 style={{ marginTop: 12 }}>Add lession</h4>
+				<h4 style={{ marginTop: 12 }}>Add lesson</h4>
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<TextField
 						onChange={(e) => setLessionName(e.target.value)}
